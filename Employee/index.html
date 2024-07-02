@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/x-icon" href="https://media.licdn.com/dms/image/D560BAQFuG9MhzCMvcw/company-logo_200_200/0/1663735749646/keyvaluesystems_logo?e=2147483647&v=beta&t=Roj9tlpVvE-sr79h_0cHF_27FPmfsv3trhWxwykLVrI">
+    <link rel="stylesheet" href="style.css" />
+    <script src="index.js" defer></script>
+    <!-- <style>
+      @import url("https://fonts.googleapis.com/css2?family=Nunito+Sans:ital,opsz,wght@0,6..12,200..1000;1,6..12,200..1000&display=swap");
+    </style> -->
+    <title>Keyvalue employee</title>
+  </head>
+  <body>
+    <header>
+      <img src="kv-logo.png" alt="kvlogo is supposed to be here" />
+    </header>
+    <div class="mainwrapper">
+      <aside>
+        <div>
+          <div><img src="icon.svg" alt="Employee list " /></div>
+
+          <p>Employee List</p>
+        </div>
+      </aside>
+      <main>
+        <section class="sec1">
+          <h1>Create Employee</h1>
+        </section>
+        <section class="sec2">
+          <form action="">
+            <div>
+              <label for="empname">Employee Name</label>
+              <input
+                type="text"
+                name="Employee name"
+                placeholder="Employee name"
+                id="empname"
+              />
+            </div>
+            <div>
+              <label for="eid">Employee ID</label>
+              <input
+                type="text"
+                name="Employee ID"
+                id="eid"
+                placeholder="Employee Id"
+              />
+            </div>
+            <div>
+              <label for="jdate">Joining Date</label>
+              <input
+                type="text"
+                name="Joining Date"
+                id="jdate"
+                placeholder="Joining date"
+              />
+            </div>
+            <div>
+              <label for="crole">Choose Role</label>
+              <select name="Choose Role" id="crole">
+                <option value="select" disabled>select</option>
+                <option value="SDE">SDE</option>
+                <option value="SAE">SAE</option>
+              </select>
+            </div>
+            <div>
+              <label for="status">Status</label>
+              <select name="Status" id="status">
+                <option value="select" disabled>select</option>
+                <option value="Joined">Joined</option>
+                <option value="On Process">on process</option>
+              </select>
+            </div>
+            <div>
+              <label for="exp">Experience</label>
+              <input
+                type="text"
+                name="Experience"
+                id="exp"
+                placeholder="Experience"
+              />
+            </div>
+            <div>
+              <label for="address">Address</label>
+              <input
+                type="text"
+                name="Address"
+                id="address"
+                placeholder="Address"
+              />
+            </div>
+            <div class="buttonbox">
+              <button id="create">Create</button>
+              <button id="cancel">Cancel</button>
+            </div>
+          </form>
+        </section>
+      </main>
+    </div>
+  </body>
+</html>
