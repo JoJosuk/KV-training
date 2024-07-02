@@ -1,0 +1,28 @@
+{
+  "name": "backend",
+  "version": "1.0.0",
+  "main": "Index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "tsc && node dist/Index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/JoJosuk/KV-training.git"
+  },
+  "author": "JoJosuk",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/JoJosuk/KV-training/issues"
+  },
+  "homepage": "https://github.com/JoJosuk/KV-training#readme",
+  "description": "",
+  "dependencies": {
+    "express": "^4.19.2"
+  },
+  "devDependencies": {
+    "@types/node": "^20.14.9",
+    "@types/express": "^4.17.21",
+    "typescript": "^5.5.3"
+  }
+}
