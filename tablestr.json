@@ -1,0 +1,73 @@
+{
+  "Employee": ["id", "name", "address", "contact"],
+  "Department": ["id", "Department name"],
+  "EmployeeDesignationmap":["employee id","designation id"],
+  "Designation": ["id", "role", "start date", "End date"],
+  "EmployeeSalary":["employee id ","salary id"],
+  "Salary":["id","salary amount","start date","end date"]
+}
+create table department (
+id serial primary key,
+department_name text
+);
+
+create table employee (
+id serial primary key,
+name text not null,
+address text not null,
+contact integer not  null,
+department_id integer,
+zipcode integer not null,
+createdAt timestamp default current_timestamp,
+constraint fk_department
+	foreign key(department_id)
+	references department(id)
+);
+
+
+
+create table employeedesignationmap (
+ employee_id integer not null,
+ desgnation_id integer not null,
+ start_date date,
+ end_date date	
+);
+
+create table  Designation(
+ id serial primary key,
+ role text not null
+);
+create table employeesalarymap (
+	employee_id  integer,
+	salary_id integer,
+	start_date date,
+	end_date date
+);
+
+create table salary (
+	id serial primary key,
+	salary_amount integer
+);
+
+insert into department (department_name) values ('marketing'),('ai'),('web development')
+
+insert into employee(name,address,contact,department_id,zipcode) values ('jojo','address',9034039,1,686691)
+insert into employee(name,address,contact,department_id,zipcode) values ('reenphy','address',9034339,3,680691);
+insert into employee(name,address,contact,department_id,zipcode) values ('neeru','address idk',3404339,2,686891)
+
+
+INSERT INTO salary (salary_amount)
+values (720000), (900000), (1200000);
+
+INSERT INTO Designation (role )
+values ('Associate'), ('Senior'), ('Staff');
+
+INSERT INTO Employeedesignationmap
+values (1,3,'2024-07-01',null),(1,1,'2023-05-01','2024-07-01'),(2,1,'2024-01-01',null),(3,2,'2023-12-01',null)
+
+insert into employeesalarymap values (1,3,'2024-07-01',null),(1,1,'2023-05-01','2024-07-01'),(2,1,'2024-01-01',null),(3,2,'2023-12-01',null);
+
+
+update employeedesignationmap set end_date = start_date + interval '1 year';
+update employeesalarymap set end_date = start_date + interval '6 month'
+
