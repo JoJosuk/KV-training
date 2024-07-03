@@ -1,10 +1,10 @@
 // console.log("hello listening server");
 
 import { Request, Response } from "express";
+import EmployeeRouter from "./EmployeeRouter"
 
 // const http = require("http");
-const express = require("express");
-
+import  express  from "express";
 // const server = http.createServer((req, res) => {
 //   console.log("request method", req.method);
 //   console.log(req.url);
@@ -22,27 +22,29 @@ const express = require("express");
 // });
 
 const app = express();
-interface Employee{
-    name:string,
-    age:number
+
+interface Employee {
+  name: string;
+  age: number;
 }
 
-app.get("/",(req:Request,res:Response)=>{
-    console.log(req.params.id)
-    return res.status(500).json({hello:"bye"})
-})
 
-app.get("/employee",(req:Request,res:Response)=>{
-    return res.json({name:"Joel J George"})
-})
+app.get("/", (req: Request, res: Response) => {
+  console.log(req.params.id);
+  return res.status(500).json({ hello: "bye" });
+});
 
-app.get("/getData",(req:Request,res:Response)=>{
-    let employeedata :Employee= {
-        name:"jojo",
-        age:34
-    }
-    return res.json(employeedata)
-})
-app.listen(5005,()=>{
-    console.log("server is running on the port 5005")
-})
+//
+app.get("/getData", (req: Request, res: Response) => {
+  let employeedata: Employee = {
+    name: "jojo",
+    age: 34,
+  };
+  return res.json(employeedata);
+});
+
+app.use("/employee",EmployeeRouter)
+
+app.listen(5005, () => {
+  console.log("server is running on the port 5005");
+});
