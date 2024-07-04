@@ -30,19 +30,19 @@ interface Employee {
 }
 
 app.use(Middleware);
-app.get("/", (req: Request, res: Response) => {
-  console.log(req.params.id);
-  return res.status(500).json({ hello: "bye" });
-});
+// app.get("/", (req: Request, res: Response) => {
+//   console.log(req.params.id);
+//   return res.status(500).json({ hello: "bye" });
+// });
 
-//
-app.get("/getData", (req: Request, res: Response) => {
-  let employeedata: Employee = {
-    name: "jojo",
-    age: 34,
-  };
-  return res.json(employeedata);
-});
+// //
+// app.get("/getData", (req: Request, res: Response) => {
+//   let employeedata: Employee = {
+//     name: "jojo",
+//     age: 34,
+//   };
+//   return res.json(employeedata);
+// });
 
 app.use("/employee", EmployeeRouter);
 (async () => {
