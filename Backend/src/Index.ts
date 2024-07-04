@@ -1,8 +1,8 @@
 import { Request, Response } from "express";
 import express from "express";
-import Middleware from "./Middleware";
-import dataSource from "./data-source";
-import EmployeeRouter from "./EmployeeRouter";
+import Middleware from "./middleware/logger.middleware";
+import dataSource from "./db/data-source.db";
+import EmployeeRouter from "../EmployeeRouter";
 
 
 // const server = http.createServer((req, res) => {

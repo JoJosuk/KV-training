@@ -5,7 +5,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "rm -rf dist/ && tsc",
-    "dev": " bun --watch Index.ts"
+    "dev": " bun --watch src/Index.ts"
   },
   "repository": {
     "type": "git",

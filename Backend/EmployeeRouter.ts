@@ -1,6 +1,6 @@
 import express, { Request, Response } from "express";
-import Employee from "./Employee";
-import dataSource from "./data-source";
+import Employee from "./src/entity/Employee.entity";
+import dataSource from "./src/db/data-source.db";
 import { Equal } from "typeorm";
 import { error } from "console";
 
@@ -58,23 +58,24 @@ empRouter.post("/", async (req: Request, res: Response) => {
   }
 });
 
-empRouter.put("/:id", (req: Request, res: Response) => {
+empRouter.put("/:id", async(req: Request, res: Response) => {
   try {
     const id = parseInt(req.params.id);
     const data = req.body;
     const updateEmployee = new Employee();
     updateEmployee.email = req.body.email;
     updateEmployee.name = req.body.name;
-    const employeedata = employeeRepository.update({ id }, updateEmployee);
+    const employeedata = await employeeRepository.update({ id }, updateEmployee);
+    console.log(employeedata)
     return res.json(employeedata);
   } catch (e) {
     return res.status(500).json({ error: e });
   }
 });
 
-empRouter.delete("/:id", (req: Request, res: Response) => {
+empRouter.delete("/:id", async(req: Request, res: Response) => {
   const id = parseInt(req.params.id);
-  const employeedata = employeeRepository.delete({id})
+  const employeedata = await employeeRepository.delete({id})
   return res.json(employeedata);
 });
 

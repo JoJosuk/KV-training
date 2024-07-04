@@ -1,9 +1,10 @@
 import "reflect-metadata";
 import { DataSource } from "typeorm";
 import { SnakeNamingStrategy } from "typeorm-naming-strategies";
-import Employee from "./Employee";
+import Employee from "../entity/Employee.entity";
 
 
+console.log(process.env["PG-USERNAME"],process.env["PG-PASSWORD"])
 const dataSource = new DataSource({
   type: "postgres",
   host: "localhost",
