@@ -1,16 +1,17 @@
 import { DataSource } from "typeorm";
 import Employee from "../entity/Employee.entity";
+import { join } from "path";
 
 class EmployeeRepository {
   constructor(private dataSource: DataSource) {}
   find = async () => {
     const employeeRepository = this.dataSource.getRepository(Employee);
-    return employeeRepository.find();
+    return employeeRepository.find({relations:['address']});
   };
 
   findOneBy = async (filter: Partial<Employee>) => {
     const employeeRepository = this.dataSource.getRepository(Employee);
-    return employeeRepository.findOne({ where: filter });
+    return employeeRepository.findOne({ where: filter,relations:['address'] });
   };
 
   save = async (newEmployee: Employee) => {
@@ -27,7 +28,9 @@ class EmployeeRepository {
   };
   delete = async (id: number) => {
     const employeeRepository = this.dataSource.getRepository(Employee);
-    return employeeRepository.softDelete(id);
+    const deleteData = await this.findOneBy({id})
+    console.log("datatoBeDeleted",deleteData)
+    return employeeRepository.softRemove(deleteData);
   };
 }
 export default EmployeeRepository;
