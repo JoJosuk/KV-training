@@ -1,23 +1,26 @@
-import {Entity,PrimaryGeneratedColumn,Column,DeleteDateColumn,CreateDateColumn,UpdateDateColumn} from "typeorm"
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  DeleteDateColumn,
+  CreateDateColumn,
+  UpdateDateColumn,
+  OneToOne,
+  JoinColumn,
+} from "typeorm";
+import AbstractEntity from "./abstract.entity";
+import Employee from "./Employee.entity";
 @Entity()
-class Address {
-    @PrimaryGeneratedColumn()
-    id: number;
+class Address extends AbstractEntity {
+  @Column()
+  line1: string;
 
-    @Column()
-    line1: string;
+  @Column()
+  pincode: string;
 
-    @Column()
-    pincode: string;
-
-    @CreateDateColumn()
-    createdAt: Date;
-
-    @UpdateDateColumn()
-    updatedAt: Date;
-
-    @DeleteDateColumn()
-    deletedAt: Date;
+  @OneToOne(() => Employee, (employee) => employee.address)
+  @JoinColumn()
+  employee: Employee;
 }
 
 export default Address;

@@ -1,5 +1,11 @@
+import { plainToInstance } from "class-transformer";
+import Address from "../entity/address.entity";
+import HttpException from "../expceptions/http.exceptions";
 import EmployeeService from "../service/employee.service";
-import express from "express";
+import express, { NextFunction } from "express";
+import { CreateEmployeeDto } from "../dto/employee.dto";
+import { validate } from "class-validator";
+import { stringify } from "querystring";
 class EmployeeController {
   public router: express.Router;
   constructor(private employeeService: EmployeeService) {
@@ -19,19 +25,50 @@ class EmployeeController {
   };
   public getEmployeesById = async (
     req: express.Request,
-    res: express.Response
+    res: express.Response,
+    next: express.NextFunction
   ) => {
-    const employee = await this.employeeService.getEmployeeById(
-      Number(req.params.id)
-    );
-    return res.status(200).json(employee);
+    try {
+      const employee = await this.employeeService.getEmployeeById(
+        Number(req.params.id)
+      );
+      console.log("empployee", employee);
+
+      if (!employee) {
+        throw new HttpException(404, "Not found the index");
+      }
+      return res.status(200).json(employee);
+    } catch (err) {
+      next(err);
+    }
   };
   public createEmployee = async (
     req: express.Request,
-    res: express.Response
+    res: express.Response,
+    next: NextFunction
   ) => {
-    const employeeData = await this.employeeService.createEmployee(req.body);
-    res.status(201).json(employeeData);
+    try {
+      const employeeDto = plainToInstance(CreateEmployeeDto, req.body);
+      const errors = await validate(employeeDto);
+
+      if (errors.length) {
+        console.log(JSON.stringify(errors));
+        // let resultstr :string ="";
+        // errors.forEach((error)=>
+        //   resultstr+= error
+
+        // )
+        throw new HttpException(400,Object.values[0].constraints[0])
+      }
+      const employeeData = await this.employeeService.createEmployee(
+        employeeDto.email,
+        employeeDto.name,
+        employeeDto.address
+      );
+      res.status(201).json(employeeData);
+    } catch (e) {
+      next(e);
+    }
   };
   public updateEmployee = async (
     req: express.Request,

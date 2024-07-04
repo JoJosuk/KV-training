@@ -9,13 +9,16 @@ class EmployeeRepository {
   };
 
   findOneBy = async (filter: Partial<Employee>) => {
-    const emploeyeeRepository = this.dataSource.getRepository(Employee);
-    return emploeyeeRepository.findOne({ where: filter });
+    const employeeRepository = this.dataSource.getRepository(Employee);
+    return employeeRepository.findOne({ where: filter });
   };
 
   save = async (newEmployee: Employee) => {
     const employeeRepository = this.dataSource.getRepository(Employee);
-    return employeeRepository.save(newEmployee);
+    console.log(newEmployee)
+    const something = await employeeRepository.save(newEmployee);
+    console.log("save",something)
+    return something
   };
 
   update = async (id: number, updateEmployee: Partial<Employee>) => {
@@ -23,8 +26,8 @@ class EmployeeRepository {
     return employeeRepository.update({ id }, updateEmployee);
   };
   delete = async (id: number) => {
-    const emploeyeeRepository = this.dataSource.getRepository(Employee);
-    return emploeyeeRepository.softDelete(id);
+    const employeeRepository = this.dataSource.getRepository(Employee);
+    return employeeRepository.softDelete(id);
   };
 }
 export default EmployeeRepository;
