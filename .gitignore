@@ -1,0 +1,10 @@
+EmployeeLogin.zip
+node_modules
+.env
+bun.lockb
+dist
+Index.js
+Database
+docker-compose.yml
+Backend/bun.lockb
+package-lock.json
