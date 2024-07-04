@@ -2,7 +2,9 @@ import { Request, Response } from "express";
 import express from "express";
 import Middleware from "./middleware/logger.middleware";
 import dataSource from "./db/data-source.db";
-import EmployeeRouter from "../EmployeeRouter";
+// import EmployeeRouter from "../EmployeeRouter";
+
+import employeeRouter from "./routes/employee.routes";
 
 
 // const server = http.createServer((req, res) => {
@@ -44,7 +46,9 @@ app.use(Middleware);
 //   return res.json(employeedata);
 // });
 
-app.use("/employee", EmployeeRouter);
+app.use("/employee", employeeRouter);
+// app.use("/employee", employeeRouter)
+
 (async () => {
   try {
     await dataSource.initialize();

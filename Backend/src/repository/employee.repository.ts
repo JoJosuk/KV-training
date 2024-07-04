@@ -1,12 +1,8 @@
 import { DataSource } from "typeorm";
-import dataSource from "../db/data-source.db";
 import Employee from "../entity/Employee.entity";
 
 class EmployeeRepository {
-  private dataSource: DataSource;
-  constructor() {
-    this.dataSource = dataSource;
-  }
+  constructor(private dataSource: DataSource) {}
   find = async () => {
     const employeeRepository = this.dataSource.getRepository(Employee);
     return employeeRepository.find();
@@ -28,7 +24,7 @@ class EmployeeRepository {
   };
   delete = async (id: number) => {
     const emploeyeeRepository = this.dataSource.getRepository(Employee);
-    return emploeyeeRepository.delete(id);
+    return emploeyeeRepository.softDelete(id);
   };
 }
 export default EmployeeRepository;

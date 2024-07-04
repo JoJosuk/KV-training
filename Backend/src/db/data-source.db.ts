@@ -2,9 +2,10 @@ import "reflect-metadata";
 import { DataSource } from "typeorm";
 import { SnakeNamingStrategy } from "typeorm-naming-strategies";
 import Employee from "../entity/Employee.entity";
+import dotenv from "dotenv";
+dotenv.config();
 
-
-console.log(process.env["PG-USERNAME"],process.env["PG-PASSWORD"])
+// console.log(process.env["PG-USERNAME"],process.env["PG-PASSWORD"])
 const dataSource = new DataSource({
   type: "postgres",
   host: "localhost",
@@ -16,7 +17,8 @@ const dataSource = new DataSource({
   synchronize: false,
   logging: true,
   namingStrategy: new SnakeNamingStrategy(),
-  entities:[Employee]
+  entities: [Employee],
+  migrations: ["dist/src/db/migrations/*.js"],
 });
 
 export default dataSource;
