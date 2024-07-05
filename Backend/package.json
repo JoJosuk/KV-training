@@ -3,7 +3,8 @@
   "version": "1.0.0",
   "main": "Index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "rm -rf dist/ && jest",
+    "test-coverage": "jest --coverage",
     "build": "rm -rf dist/ && tsc",
     "dev": "npm run build && node ./dist/src/Index.js",
     "migration:create": "npm run build && npx typeorm migration:create",
@@ -23,6 +24,8 @@
   "homepage": "https://github.com/JoJosuk/KV-training#readme",
   "description": "",
   "dependencies": {
+    "@types/bcrypt": "^5.0.2",
+    "@types/jsonwebtoken": "^9.0.6",
     "bcrypt": "^5.1.1",
     "class-transformer": "^0.5.1",
     "class-validator": "^0.14.1",
@@ -37,7 +40,20 @@
   },
   "devDependencies": {
     "@types/express": "^4.17.21",
+    "@types/jest": "^29.5.12",
     "@types/node": "^20.14.9",
+    "jest": "^29.7.0",
+    "ts-jest": "^29.1.5",
     "typescript": "^5.5.3"
+  },
+  "jest": {
+    "transform": {
+      "^.+\\.(t)s$": "ts-jest"
+    },
+    "verbose": true,
+    "collectCoverageFrom": [
+      "<rootDir>/src/**/*.ts",
+      "!**/index.ts"
+    ]
   }
 }

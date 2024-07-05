@@ -5,23 +5,45 @@ import EmployeeService from "../service/employee.service";
 import express, { NextFunction } from "express";
 import { CreateEmployeeDto, UpdateEmployeeDto } from "../dto/employee.dto";
 import { validate } from "class-validator";
-import { stringify } from "querystring";
+import { LoginEmployeeDto } from "../dto/LoginEmployee.dto";
+import { authMiddleware } from "../middleware/auth.middleware";
+import { RequestWithUser } from "../utils/RequestWithUser";
+import { Role } from "../utils/role.enum";
 class EmployeeController {
   public router: express.Router;
   constructor(private employeeService: EmployeeService) {
     this.router = express.Router();
-    this.router.get("/", this.getAllEmployees);
-    this.router.get("/:id", this.getEmployeesById);
-    this.router.post("/", this.createEmployee);
-    this.router.put("/:id", this.updateEmployee);
-    this.router.delete("/:id", this.deleteEmployeeById);
+    this.router.post("/login",this.loginEmployee)
+    this.router.get("/",authMiddleware, this.getAllEmployees);
+    this.router.get("/:id",authMiddleware, this.getEmployeesById);
+    this.router.post("/",authMiddleware, this.createEmployee);
+    this.router.put("/:id",authMiddleware, this.updateEmployee);
+    this.router.delete("/:id",authMiddleware, this.deleteEmployeeById);
+  }
+  public loginEmployee = async(req:express.Request,res:express.Response,next:express.NextFunction)=>{
+    try{const loginDto = plainToInstance(LoginEmployeeDto,req.body);
+    const errors = await validate(loginDto)
+    if (errors.length){
+      throw new HttpException(400,"Login validation error",errors)
+    }
+    const token =await  this.employeeService.loginEmployeeService(loginDto.email,loginDto.password)
+    console.log("token",token)
+    return res.status(200).json(token)
+  }
+    catch(e){
+      next(e)
+    }
   }
   public getAllEmployees = async (
-    req: express.Request,
+    req: RequestWithUser,
     res: express.Response,
     next: express.NextFunction
   ) => {
     try {
+      const role = req.role
+      if (role !== Role.UX){
+        throw new HttpException(403,"Forbidden")
+      }
       const employees = await this.employeeService.getAllEmployeees();
       return res.status(200).json(employees);
     } catch (e) {
@@ -68,7 +90,9 @@ class EmployeeController {
       const employeeData = await this.employeeService.createEmployee(
         employeeDto.email,
         employeeDto.name,
-        employeeDto.address
+        employeeDto.address,
+        employeeDto.password,
+        employeeDto.role
       );
       res.status(201).json("created data");
     } catch (e) {
@@ -90,6 +114,7 @@ class EmployeeController {
       if (employeeDto.address) {
         updateAddress.line1 = employeeDto.address.line1;
         updateAddress.pincode = employeeDto.address.pincode;
+        updateAddress.createdAt= employeeDto.address.createdAt;
       }
       const updateEmployeeStatus = await this.employeeService.updateEmployee(
         Number(req.params.id),
@@ -99,7 +124,8 @@ class EmployeeController {
           address: employeeDto.address ? updateAddress : undefined,
         }
       );
-      if ((updateEmployeeStatus.affected = 0)) {
+      console.log("status of update employee",updateEmployeeStatus,updateEmployeeStatus.affected)
+      if (!updateEmployeeStatus.affected) {
         throw new HttpException(400, "No such id");
       }
       return res.status(200).json(updateEmployeeStatus);

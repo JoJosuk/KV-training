@@ -2,9 +2,27 @@ import Employee from "../entity/Employee.entity";
 import Address from "../entity/address.entity";
 import HttpException from "../expceptions/http.exceptions";
 import EmployeeRepository from "../repository/employee.repository";
-
+import { Role } from "../utils/role.enum";
+import bcrypt from "bcrypt";
+import {sign} from "jsonwebtoken"
 class EmployeeService {
   constructor(private employeeRepository: EmployeeRepository) {}
+  loginEmployeeService = async (email: string, password: string) => {
+    const employee = await this.employeeRepository.findOneBy({ email });
+    if (!employee) {
+      throw new HttpException(403, "No such user");
+    }
+    if (!(await bcrypt.compare(password, (await employee).password))) {
+      throw new HttpException(403, "incorrect password");
+    }
+    const payload = {
+      name: employee.name,
+      email: employee.email,
+      role: employee.role,
+    };
+    const token= sign(payload,process.env.JWTSECRETKEY,{expiresIn:"10m"})
+    return {token}
+  };
 
   getAllEmployeees = async () => this.employeeRepository.find();
 
@@ -12,11 +30,20 @@ class EmployeeService {
     this.employeeRepository.findOneBy({ id });
 
   updateEmployee = async (id: number, employee: Partial<Employee>) => {
-    const employeeIfThere = this.getEmployeeById(id);
+    
+    const employeeIfThere =  await this.getEmployeeById(id);
+    if (!employeeIfThere) {
+      throw new HttpException(404, "Not found Employee");
+    }
     return this.employeeRepository.update(id, employee);
   };
-  createEmployee = async (email: string, name: string, address: any) => {
-    
+  createEmployee = async (
+    email: string,
+    name: string,
+    address: any,
+    password: string,
+    role: Role
+  ) => {
     const newEmployee = new Employee();
     newEmployee.email = email;
     newEmployee.name = name;
@@ -25,15 +52,18 @@ class EmployeeService {
     newAddress.line1 = address.line1;
     newAddress.pincode = address.pincode;
     newEmployee.address = newAddress;
-    console.log("new employee",newEmployee)
+    newEmployee.password = await bcrypt.hash(password, 10);
+    console.log("password", password);
+    newEmployee.role = role;
+    console.log("new employee", newEmployee);
     this.employeeRepository.save(newEmployee);
   };
   deleteEmployeeById = async (id: number) => {
     const employeeIfThere = await this.getEmployeeById(id);
-    if (!employeeIfThere){
-      throw new HttpException(404,"Not found Employee")
+    if (!employeeIfThere) {
+      throw new HttpException(404, "Not found Employee");
     }
-    this.employeeRepository.delete(id)
+    this.employeeRepository.delete(id);
   };
 }
 
