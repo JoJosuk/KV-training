@@ -1,5 +1,6 @@
 import Employee from "../entity/Employee.entity";
 import Address from "../entity/address.entity";
+import HttpException from "../expceptions/http.exceptions";
 import EmployeeRepository from "../repository/employee.repository";
 
 class EmployeeService {
@@ -27,7 +28,13 @@ class EmployeeService {
     console.log("new employee",newEmployee)
     this.employeeRepository.save(newEmployee);
   };
-  deleteEmployeeById = async (id: number) => this.employeeRepository.delete(id);
+  deleteEmployeeById = async (id: number) => {
+    const employeeIfThere = await this.getEmployeeById(id);
+    if (!employeeIfThere){
+      throw new HttpException(404,"Not found Employee")
+    }
+    this.employeeRepository.delete(id)
+  };
 }
 
 export default EmployeeService;
