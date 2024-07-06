@@ -9,8 +9,8 @@ dotenv.config();
 const dataSource = new DataSource({
   type: "postgres",
   host: "localhost",
-  port: 5432,
-  database: "training",
+  port: Number(process.env.PG_PORT),
+  database: process.env["PG_DATABASE "],
   username: process.env["PG-USERNAME"],
   password: process.env["PG-PASSWORD"],
   extra: { max: 5, min: 2 },

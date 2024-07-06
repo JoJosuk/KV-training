@@ -1,6 +1,6 @@
 import Employee from "../entity/Employee.entity";
 import Address from "../entity/address.entity";
-import HttpException from "../expceptions/http.exceptions";
+import HttpException from "../exceptions/http.exceptions";
 import EmployeeRepository from "../repository/employee.repository";
 import { Role } from "../utils/role.enum";
 import bcrypt from "bcrypt";

@@ -1,6 +1,6 @@
 import { plainToInstance } from "class-transformer";
 import Address from "../entity/address.entity";
-import HttpException from "../expceptions/http.exceptions";
+import HttpException from "../exceptions/http.exceptions";
 import EmployeeService from "../service/employee.service";
 import express, { NextFunction } from "express";
 import { CreateEmployeeDto, UpdateEmployeeDto } from "../dto/employee.dto";

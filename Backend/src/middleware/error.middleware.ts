@@ -1,5 +1,5 @@
 import express from "express";
-import HttpException from "../expceptions/http.exceptions";
+import HttpException from "../exceptions/http.exceptions";
 const errorMiddleware = (
   err: Error,
   req: express.Request,

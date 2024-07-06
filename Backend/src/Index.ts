@@ -5,9 +5,8 @@ import dataSource from "./db/data-source.db";
 // import EmployeeRouter from "../EmployeeRouter";
 
 import employeeRouter from "./routes/employee.routes";
-import HttpException from "./expceptions/http.exceptions";
+import HttpException from "./exceptions/http.exceptions";
 import errorMiddleware from "./middleware/error.middleware";
-console.log(process.env.USERNAME, process.env.PASSWORD);
 const app = express();
 app.use(express.json());
 

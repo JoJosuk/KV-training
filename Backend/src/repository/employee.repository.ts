@@ -1,36 +1,35 @@
-import { DataSource } from "typeorm";
+import { DataSource, Repository } from "typeorm";
 import Employee from "../entity/Employee.entity";
 import { join } from "path";
 
 class EmployeeRepository {
-  constructor(private dataSource: DataSource) {}
+  constructor(private employeeRepository:Repository<Employee>) {
+    this.employeeRepository= employeeRepository
+    
+  }
+
   find = async () => {
-    const employeeRepository = this.dataSource.getRepository(Employee);
-    return employeeRepository.find({relations:['address']});
+    return this.employeeRepository.find({relations:['address']});
   };
 
   findOneBy = async (filter: Partial<Employee>) => {
-    const employeeRepository = this.dataSource.getRepository(Employee);
-    return employeeRepository.findOne({ where: filter,relations:['address'] });
+    return this.employeeRepository.findOne({ where: filter,relations:['address'] });
   };
 
   save = async (newEmployee: Employee) => {
-    const employeeRepository = this.dataSource.getRepository(Employee);
     console.log(newEmployee)
-    const something = await employeeRepository.save(newEmployee);
+    const something = await this.employeeRepository.save(newEmployee);
     console.log("save",something)
     return something
   };
 
   update = async (id: number, updateEmployee: Partial<Employee>) => {
-    const employeeRepository = this.dataSource.getRepository(Employee);
-    return employeeRepository.update({ id }, updateEmployee);
+    return this.employeeRepository.update({ id }, updateEmployee);
   };
   delete = async (id: number) => {
-    const employeeRepository = this.dataSource.getRepository(Employee);
     const deleteData = await this.findOneBy({id})
     console.log("datatoBeDeleted",deleteData)
-    return employeeRepository.softRemove(deleteData);
+    return this.employeeRepository.softRemove(deleteData);
   };
 }
 export default EmployeeRepository;

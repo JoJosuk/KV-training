@@ -8,3 +8,4 @@ Database
 docker-compose.yml
 Backend/bun.lockb
 package-lock.json
+coverage
