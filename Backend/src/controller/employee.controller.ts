@@ -88,6 +88,8 @@ class EmployeeController {
     next: NextFunction
   ) => {
     try {
+      Permission.employeePermission(req, [Role.UX]);
+
       const employeeDto = plainToInstance(CreateEmployeeDto, req.body);
       const errors = await validate(employeeDto);
 
@@ -119,6 +121,8 @@ class EmployeeController {
     next: express.NextFunction
   ) => {
     try {
+      Permission.employeePermission(req, [Role.UX]);
+
       const employeeDto = plainToInstance(UpdateEmployeeDto, req.body);
       const errors = await validate(employeeDto);
       if (errors.length) {
@@ -151,7 +155,10 @@ class EmployeeController {
     res: express.Response,
     next: express.NextFunction
   ) => {
+
     try {
+      Permission.employeePermission(req, [Role.UX]);
+
       const deleteEmployeeStatus =
         await this.employeeService.deleteEmployeeById(Number(req.params.id));
       return res.status(200).json(deleteEmployeeStatus);
