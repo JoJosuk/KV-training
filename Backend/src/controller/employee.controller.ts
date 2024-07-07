@@ -9,14 +9,15 @@ import { LoginEmployeeDto } from "../dto/LoginEmployee.dto";
 import { authMiddleware } from "../middleware/auth.middleware";
 import { RequestWithUser } from "../utils/RequestWithUser";
 import { Role } from "../utils/role.enum";
+import { Permission} from "../utils/permissions.roles"
 class EmployeeController {
   public router: express.Router;
   constructor(private employeeService: EmployeeService) {
     this.router = express.Router();
     this.router.post("/login",this.loginEmployee)
-    this.router.get("/",authMiddleware, this.getAllEmployees);
+    this.router.get("/", authMiddleware,this.getAllEmployees);
     this.router.get("/:id",authMiddleware, this.getEmployeesById);
-    this.router.post("/",authMiddleware, this.createEmployee);
+    this.router.post("/", this.createEmployee);
     this.router.put("/:id",authMiddleware, this.updateEmployee);
     this.router.delete("/:id",authMiddleware, this.deleteEmployeeById);
   }
@@ -40,10 +41,12 @@ class EmployeeController {
     next: express.NextFunction
   ) => {
     try {
-      const role = req.role
-      if (role !== Role.UX){
-        throw new HttpException(403,"Forbidden")
-      }
+      // const role = req.role
+      // if (role !== Role.UX){
+      //   throw new HttpException(403,"Forbidden")
+      // }
+      Permission.employeePermission(req,[Role.UX])
+
       const employees = await this.employeeService.getAllEmployeees();
       return res.status(200).json(employees);
     } catch (e) {
@@ -51,11 +54,15 @@ class EmployeeController {
     }
   };
   public getEmployeesById = async (
-    req: express.Request,
+    req: RequestWithUser,
     res: express.Response,
     next: express.NextFunction
   ) => {
     try {
+
+      //ask about the permisiion
+      Permission.employeePermission(req,[Role.UX])
+
       const employee = await this.employeeService.getEmployeeById(
         Number(req.params.id)
       );
@@ -70,7 +77,7 @@ class EmployeeController {
     }
   };
   public createEmployee = async (
-    req: express.Request,
+    req: RequestWithUser,
     res: express.Response,
     next: NextFunction
   ) => {
@@ -100,7 +107,7 @@ class EmployeeController {
     }
   };
   public updateEmployee = async (
-    req: express.Request,
+    req: RequestWithUser,
     res: express.Response,
     next: express.NextFunction
   ) => {
@@ -134,7 +141,7 @@ class EmployeeController {
     }
   };
   public deleteEmployeeById = async (
-    req: express.Request,
+    req: RequestWithUser,
     res: express.Response,
     next: express.NextFunction
   ) => {

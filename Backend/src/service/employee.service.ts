@@ -20,7 +20,7 @@ class EmployeeService {
       email: employee.email,
       role: employee.role,
     };
-    const token= sign(payload,process.env.JWTSECRETKEY,{expiresIn:"10m"})
+    const token= sign(payload,process.env.JWTSECRETKEY,{expiresIn:"36h"})
     return {token}
   };
 

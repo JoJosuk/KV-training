@@ -6,11 +6,12 @@ import dotenv from "dotenv";
 dotenv.config();
 
 // console.log(process.env["PG-USERNAME"],process.env["PG-PASSWORD"])
+
 const dataSource = new DataSource({
   type: "postgres",
   host: "localhost",
   port: Number(process.env.PG_PORT),
-  database: process.env["PG_DATABASE "],
+  database: process.env["PG_DATABASE"],
   username: process.env["PG-USERNAME"],
   password: process.env["PG-PASSWORD"],
   extra: { max: 5, min: 2 },

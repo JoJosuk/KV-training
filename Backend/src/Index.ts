@@ -15,6 +15,8 @@ interface Employee {
   age: number;
 }
 
+console.log(process.env["PG-USERNAME"],process.env["PG_DATABASE"],process.env["PG-PASSWORD"],process.env.port)
+
 app.use(Middleware);
 
 app.use("/employee", employeeRouter);
