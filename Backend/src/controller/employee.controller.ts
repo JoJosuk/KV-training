@@ -72,7 +72,7 @@ class EmployeeController {
       const employee = await this.employeeService.getEmployeeById(
         Number(req.params.id)
       );
-      console.log("empployee", employee);
+      console.log("employee", employee);
 
       if (!employee) {
         throw new HttpException(404, "Not found the index");
@@ -105,7 +105,8 @@ class EmployeeController {
         employeeDto.name,
         employeeDto.address,
         employeeDto.password,
-        employeeDto.role
+        employeeDto.role,
+        employeeDto.department
       );
       res.status(201).json("created data");
     } catch (e) {
@@ -135,16 +136,11 @@ class EmployeeController {
           name: employeeDto.name,
           email: employeeDto.email,
           address: employeeDto.address ? updateAddress : undefined,
+          department: employeeDto.department
+          
         }
       );
-      console.log(
-        "status of update employee",
-        updateEmployeeStatus,
-        updateEmployeeStatus.affected
-      );
-      if (!updateEmployeeStatus.affected) {
-        throw new HttpException(400, "No such id");
-      }
+  
       return res.status(200).json(updateEmployeeStatus);
     } catch (e) {
       next(e);

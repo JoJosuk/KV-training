@@ -2,11 +2,20 @@ import Employee from "../entity/Employee.entity";
 import Address from "../entity/address.entity";
 import HttpException from "../exceptions/http.exceptions";
 import EmployeeRepository from "../repository/employee.repository";
+import DepartmentRepository from "../repository/department.repository";
 import { Role } from "../utils/role.enum";
 import bcrypt from "bcrypt";
-import {sign} from "jsonwebtoken"
+import { sign } from "jsonwebtoken";
+import Department from "../entity/department.entity";
+import { Repository } from "typeorm";
 class EmployeeService {
-  constructor(private employeeRepository: EmployeeRepository) {}
+  constructor(
+    private employeeRepository: EmployeeRepository,
+    private departmentRespository: DepartmentRepository
+  ) {
+    this.employeeRepository = employeeRepository;
+    this.departmentRespository = departmentRespository;
+  }
   loginEmployeeService = async (email: string, password: string) => {
     const employee = await this.employeeRepository.findOneBy({ email });
     if (!employee) {
@@ -20,8 +29,8 @@ class EmployeeService {
       email: employee.email,
       role: employee.role,
     };
-    const token= sign(payload,process.env.JWTSECRETKEY,{expiresIn:"36h"})
-    return {token}
+    const token = sign(payload, process.env.JWTSECRETKEY, { expiresIn: "36h" });
+    return { token };
   };
 
   getAllEmployeees = async () => this.employeeRepository.find();
@@ -29,24 +38,39 @@ class EmployeeService {
   getEmployeeById = async (id: number) =>
     this.employeeRepository.findOneBy({ id });
 
-  updateEmployee = async (id: number, employee: Partial<Employee>) => {
-    
-    const employeeIfThere =  await this.getEmployeeById(id);
+  updateEmployee = async (id: number, employee: any) => {
+    const employeeIfThere = await this.getEmployeeById(id);
     if (!employeeIfThere) {
       throw new HttpException(404, "Not found Employee");
     }
-    return this.employeeRepository.update(id, employee);
+    if (employee.department){
+      const department = await this.departmentRespository.findOneBy({
+        name: employee.department.name,
+      });
+      employee.department= department
+      console.log("Department is",department)
+    }
+
+    return this.employeeRepository.save(employee);
   };
   createEmployee = async (
     email: string,
     name: string,
     address: any,
     password: string,
-    role: Role
+    role: Role,
+    department: Department
   ) => {
+    const departmentData = await this.departmentRespository.findOneBy({
+      name: department.name,
+    });
+    if (!departmentData) {
+      throw new HttpException(404, "Department Not Found");
+    }
     const newEmployee = new Employee();
     newEmployee.email = email;
     newEmployee.name = name;
+    newEmployee.department = departmentData;
 
     const newAddress = new Address();
     newAddress.line1 = address.line1;
