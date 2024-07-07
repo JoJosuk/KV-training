@@ -7,6 +7,7 @@ import dataSource from "./db/data-source.db";
 import employeeRouter from "./routes/employee.routes";
 import HttpException from "./exceptions/http.exceptions";
 import errorMiddleware from "./middleware/error.middleware";
+import departmentRouter from "./routes/department.routes";
 const app = express();
 app.use(express.json());
 
@@ -15,11 +16,17 @@ interface Employee {
   age: number;
 }
 
-console.log(process.env["PG-USERNAME"],process.env["PG_DATABASE"],process.env["PG-PASSWORD"],process.env.port)
+console.log(
+  process.env["PG-USERNAME"],
+  process.env["PG_DATABASE"],
+  process.env["PG-PASSWORD"],
+  process.env.port
+);
 
 app.use(Middleware);
 
 app.use("/employee", employeeRouter);
+app.use("/department", departmentRouter);
 app.use(errorMiddleware);
 
 (async () => {

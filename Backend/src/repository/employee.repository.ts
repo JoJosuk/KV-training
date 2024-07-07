@@ -17,9 +17,7 @@ class EmployeeRepository {
   };
 
   save = async (newEmployee: Employee) => {
-    console.log(newEmployee)
     const something = await this.employeeRepository.save(newEmployee);
-    console.log("save",something)
     return something
   };
 

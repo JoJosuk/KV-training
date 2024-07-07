@@ -9,32 +9,39 @@ import { LoginEmployeeDto } from "../dto/LoginEmployee.dto";
 import { authMiddleware } from "../middleware/auth.middleware";
 import { RequestWithUser } from "../utils/RequestWithUser";
 import { Role } from "../utils/role.enum";
-import { Permission} from "../utils/permissions.roles"
+import { Permission } from "../utils/permissions.roles";
 class EmployeeController {
   public router: express.Router;
   constructor(private employeeService: EmployeeService) {
     this.router = express.Router();
-    this.router.post("/login",this.loginEmployee)
-    this.router.get("/", authMiddleware,this.getAllEmployees);
-    this.router.get("/:id",authMiddleware, this.getEmployeesById);
+    this.router.post("/login", this.loginEmployee);
+    this.router.get("/", authMiddleware, this.getAllEmployees);
+    this.router.get("/:id", authMiddleware, this.getEmployeesById);
     this.router.post("/", this.createEmployee);
-    this.router.put("/:id",authMiddleware, this.updateEmployee);
-    this.router.delete("/:id",authMiddleware, this.deleteEmployeeById);
+    this.router.put("/:id", authMiddleware, this.updateEmployee);
+    this.router.delete("/:id", authMiddleware, this.deleteEmployeeById);
   }
-  public loginEmployee = async(req:express.Request,res:express.Response,next:express.NextFunction)=>{
-    try{const loginDto = plainToInstance(LoginEmployeeDto,req.body);
-    const errors = await validate(loginDto)
-    if (errors.length){
-      throw new HttpException(400,"Login validation error",errors)
+  public loginEmployee = async (
+    req: express.Request,
+    res: express.Response,
+    next: express.NextFunction
+  ) => {
+    try {
+      const loginDto = plainToInstance(LoginEmployeeDto, req.body);
+      const errors = await validate(loginDto);
+      if (errors.length) {
+        throw new HttpException(400, "Login validation error", errors);
+      }
+      const token = await this.employeeService.loginEmployeeService(
+        loginDto.email,
+        loginDto.password
+      );
+      console.log("token", token);
+      return res.status(200).json(token);
+    } catch (e) {
+      next(e);
     }
-    const token =await  this.employeeService.loginEmployeeService(loginDto.email,loginDto.password)
-    console.log("token",token)
-    return res.status(200).json(token)
-  }
-    catch(e){
-      next(e)
-    }
-  }
+  };
   public getAllEmployees = async (
     req: RequestWithUser,
     res: express.Response,
@@ -45,7 +52,7 @@ class EmployeeController {
       // if (role !== Role.UX){
       //   throw new HttpException(403,"Forbidden")
       // }
-      Permission.employeePermission(req,[Role.UX])
+      Permission.employeePermission(req, [Role.UX]);
 
       const employees = await this.employeeService.getAllEmployeees();
       return res.status(200).json(employees);
@@ -59,9 +66,8 @@ class EmployeeController {
     next: express.NextFunction
   ) => {
     try {
-
       //ask about the permisiion
-      Permission.employeePermission(req,[Role.UX])
+      Permission.employeePermission(req, [Role.UX]);
 
       const employee = await this.employeeService.getEmployeeById(
         Number(req.params.id)
@@ -121,7 +127,7 @@ class EmployeeController {
       if (employeeDto.address) {
         updateAddress.line1 = employeeDto.address.line1;
         updateAddress.pincode = employeeDto.address.pincode;
-        updateAddress.createdAt= employeeDto.address.createdAt;
+        updateAddress.createdAt = employeeDto.address.createdAt;
       }
       const updateEmployeeStatus = await this.employeeService.updateEmployee(
         Number(req.params.id),
@@ -131,7 +137,11 @@ class EmployeeController {
           address: employeeDto.address ? updateAddress : undefined,
         }
       );
-      console.log("status of update employee",updateEmployeeStatus,updateEmployeeStatus.affected)
+      console.log(
+        "status of update employee",
+        updateEmployeeStatus,
+        updateEmployeeStatus.affected
+      );
       if (!updateEmployeeStatus.affected) {
         throw new HttpException(400, "No such id");
       }
