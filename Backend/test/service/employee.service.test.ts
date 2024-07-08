@@ -34,7 +34,7 @@ describe("Employee service", () => {
         id: 1,
         line1: "line1",
         pincode: "123",
-        employee: null, 
+        employee: null,
         createdAt: new Date(),
         updatedAt: new Date(),
         deletedAt: null,
@@ -109,22 +109,20 @@ describe("Employee service", () => {
     const mock = jest.fn();
     when(mock)
       .calledWith({ id: 1 })
-      .mockResolvedValue(dummyEmployees[0]  as Employee);
+      .mockResolvedValue(dummyEmployees[0] as Employee);
     employeeRepository.findOneBy = mock;
     const users = await employeeService.getEmployeeById(1);
     expect(users.name).toEqual("test1");
-    expect(users.email).toEqual("test1@gmail.com")
+    expect(users.email).toEqual("test1@gmail.com");
     expect(mock).toHaveBeenCalledTimes(1);
   });
 
-  // it.only("should return create employee", async () => {
-  //   const mockSave = jest.fn(employeeRepository.save);
-  //   mockSave.mockResolvedValue( dummyEmployees[0])
-  //   employeeRepository.save = mockSave
-
-  //   const mockDepartment =jest.fn(departmentRepository.findOneBy)
-  //   when
-  //   when(mockSave)
-  //    .calledWith(dummyEmployees[0])
-  // });
+  it.only("should return create employee", async () => {
+    const mockSave = jest.fn(employeeRepository.save);
+    mockSave.mockResolvedValue(dummyEmployees[0]);
+    employeeRepository.save = mockSave;
+    const mockDepartment = jest.fn(departmentRepository.findOneBy);
+    when;
+    when(mockSave).calledWith(dummyEmployees[0]);
+  });
 });
