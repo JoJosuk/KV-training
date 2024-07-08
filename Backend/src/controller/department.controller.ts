@@ -7,6 +7,7 @@ import { validate } from "class-validator";
 import HttpException from "../exceptions/http.exceptions";
 import {
   CreateDepartmentDto,
+  OutputDepartmentDto,
   UpdateDepartmentDto,
 } from "../dto/department.dto";
 import { Permission } from "../utils/permissions.roles";
@@ -17,11 +18,11 @@ export default class DepartmentController {
   public router: express.Router;
   constructor(private departmentService: DepartmentService) {
     this.router = express.Router();
-    this.router.get("/",authMiddleware ,this.getAllDepartment);
-    this.router.post("/",authMiddleware, this.createDepartment);
-    this.router.get("/:id", authMiddleware,this.getDepartmentbyId);
-    this.router.put("/:id", authMiddleware,this.updateDepartment);
-    this.router.delete("/:id",authMiddleware, this.deleteDepartment);
+    this.router.get("/", authMiddleware, this.getAllDepartment);
+    this.router.post("/", authMiddleware, this.createDepartment);
+    this.router.get("/:id", authMiddleware, this.getDepartmentbyId);
+    this.router.put("/:id", authMiddleware, this.updateDepartment);
+    this.router.delete("/:id", authMiddleware, this.deleteDepartment);
   }
 
   getAllDepartment = async (
@@ -33,7 +34,8 @@ export default class DepartmentController {
       Permission.employeePermission(req, [Role.UX]);
 
       const response = await this.departmentService.getAllDepartment();
-      res.status(200).json(response);
+      const departmentDto = plainToInstance(OutputDepartmentDto, response);
+      res.status(200).json(departmentDto);
     } catch (e) {
       next(e);
     }
@@ -48,7 +50,8 @@ export default class DepartmentController {
 
       const id = parseInt(req.params.id);
       const response = await this.departmentService.getDepartmentById(id);
-      res.status(200).json(response);
+      const departmentDto = plainToInstance(OutputDepartmentDto, response);
+      res.status(200).json(departmentDto);
     } catch (e) {
       next(e);
     }
@@ -72,7 +75,8 @@ export default class DepartmentController {
       const response = await this.departmentService.createDepartment(
         createDepartmentDto.name
       );
-      res.status(201).json(response);
+      const departmentDto = plainToInstance(OutputDepartmentDto, response);
+      res.status(201).json(departmentDto);
     } catch (e) {
       next(e);
     }
@@ -103,12 +107,14 @@ export default class DepartmentController {
         id,
         updateDepartmentDto.name
       );
-      res.status(200).json(response);
+      const departmentDto = plainToInstance(OutputDepartmentDto, response);
+
+      res.status(200).json(departmentDto);
     } catch (e) {
       next(e);
     }
   };
-    //how to implement deletion
+  //how to implement deletion
   deleteDepartment = async (
     req: RequestWithUser,
     res: express.Response,
@@ -124,7 +130,8 @@ export default class DepartmentController {
         throw new HttpException(400, "Not valid id");
       }
       const response = await this.departmentService.deleteDepartment(id);
-      res.status(200).json(response);
+      const departmentDto = plainToInstance(OutputDepartmentDto, response);
+      res.status(200).json(departmentDto);
     } catch (e) {
       next(e);
     }

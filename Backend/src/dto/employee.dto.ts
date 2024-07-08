@@ -1,10 +1,10 @@
 import { IsEmail, IsString, IsNotEmpty, ValidateNested, IsEnum } from "class-validator";
 import Address from "../entity/address.entity";
 import { CreateAddressDto, UpdateAddressDto } from "./address.dto";
-import { Type } from "class-transformer";
+import { Exclude, Type } from "class-transformer";
 import { Role } from "../utils/role.enum";
 import "reflect-metadata";
-import { CreateDepartmentDto } from "./department.dto";
+import { CreateDepartmentDto, UpdateDepartmentDto } from "./department.dto";
 import Department from "../entity/department.entity";
 export class CreateEmployeeDto {
   @IsNotEmpty()
@@ -45,7 +45,12 @@ export class UpdateEmployeeDto {
   address: UpdateAddressDto;
 
   @ValidateNested()
-  @Type(() => CreateDepartmentDto)
+  @Type(() => UpdateDepartmentDto)
   department: Department;
 
+}
+
+export class OutputEmployeeDto {
+  @Exclude()
+  password:string;
 }

@@ -1,4 +1,7 @@
-import { IsNotEmpty, IsOptional, IsString } from "class-validator";
+import { IsNotEmpty, IsOptional, IsString, ValidateNested } from "class-validator";
+import { OutputEmployeeDto } from "./employee.dto";
+import Employee from "../entity/Employee.entity";
+import { Type } from "class-transformer";
 
 export class CreateDepartmentDto {
   @IsString()
@@ -9,5 +12,14 @@ export class CreateDepartmentDto {
 export class UpdateDepartmentDto {
   @IsString()
   @IsOptional()
-  name: string;
+  name?: string;
+}
+
+export  class OutputDepartmentDto{
+
+  @ValidateNested()
+  @IsOptional()
+  @Type(()=>OutputEmployeeDto)
+  employee:Employee
+
 }

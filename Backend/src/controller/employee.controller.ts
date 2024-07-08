@@ -3,7 +3,11 @@ import Address from "../entity/address.entity";
 import HttpException from "../exceptions/http.exceptions";
 import EmployeeService from "../service/employee.service";
 import express, { NextFunction } from "express";
-import { CreateEmployeeDto, UpdateEmployeeDto } from "../dto/employee.dto";
+import {
+  CreateEmployeeDto,
+  OutputEmployeeDto,
+  UpdateEmployeeDto,
+} from "../dto/employee.dto";
 import { validate } from "class-validator";
 import { LoginEmployeeDto } from "../dto/LoginEmployee.dto";
 import { authMiddleware } from "../middleware/auth.middleware";
@@ -48,14 +52,12 @@ class EmployeeController {
     next: express.NextFunction
   ) => {
     try {
-      // const role = req.role
-      // if (role !== Role.UX){
-      //   throw new HttpException(403,"Forbidden")
-      // }
       Permission.employeePermission(req, [Role.UX]);
 
       const employees = await this.employeeService.getAllEmployeees();
-      return res.status(200).json(employees);
+      const outputEmployeeDto = plainToInstance(OutputEmployeeDto, employees);
+
+      return res.status(200).json(outputEmployeeDto);
     } catch (e) {
       next(e);
     }
@@ -77,7 +79,10 @@ class EmployeeController {
       if (!employee) {
         throw new HttpException(404, "Not found the index");
       }
-      return res.status(200).json(employee);
+      const outputEmployeeDto = plainToInstance(OutputEmployeeDto, employee);
+      // console.log("output employee dto",outputEmployeeDto)
+
+      return res.status(200).json(outputEmployeeDto);
     } catch (err) {
       next(err);
     }
@@ -135,16 +140,21 @@ class EmployeeController {
         updateAddress.createdAt = employeeDto.address.createdAt;
       }
       const updateEmployeeStatus = await this.employeeService.updateEmployee(
-        Number(req.params.id),
+        
         {
+          id :Number(req.params.id),
           name: employeeDto.name,
           email: employeeDto.email,
           address: employeeDto.address ? updateAddress : undefined,
           department: employeeDto.department,
         }
       );
+      const outputEmployeeDto = plainToInstance(
+        OutputEmployeeDto,
+        updateEmployeeStatus
+      );
 
-      return res.status(200).json(updateEmployeeStatus);
+      return res.status(200).json(outputEmployeeDto);
     } catch (e) {
       next(e);
     }
@@ -159,7 +169,12 @@ class EmployeeController {
 
       const deleteEmployeeStatus =
         await this.employeeService.deleteEmployeeById(Number(req.params.id));
-      return res.status(200).json(deleteEmployeeStatus);
+      const outputEmployeeDto = plainToInstance(
+        OutputEmployeeDto,
+        deleteEmployeeStatus
+      );
+
+      return res.status(200).json(outputEmployeeDto);
     } catch (e) {
       next(e);
     }

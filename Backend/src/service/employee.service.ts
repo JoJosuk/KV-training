@@ -38,8 +38,8 @@ class EmployeeService {
   getEmployeeById = async (id: number) =>
     this.employeeRepository.findOneBy({ id });
 
-  updateEmployee = async (id: number, employee: any) => {
-    const employeeIfThere = await this.getEmployeeById(id);
+  updateEmployee = async ( employee: any) => {
+    const employeeIfThere = await this.getEmployeeById(employee.id);
     if (!employeeIfThere) {
       throw new HttpException(404, "Not found Employee");
     }
@@ -48,9 +48,10 @@ class EmployeeService {
         name: employee.department.name,
       });
       employee.department= department
+      employee.address.id = employeeIfThere.address.id
       console.log("Department is",department)
     }
-
+    console.log(employee)
     return this.employeeRepository.save(employee);
   };
   createEmployee = async (
