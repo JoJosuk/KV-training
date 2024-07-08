@@ -5,9 +5,9 @@ export default class DepartmentRepository {
   constructor(private departmentRepostory: Repository<Department>) {
     this.departmentRepostory = departmentRepostory;
   }
-  find = async () => this.departmentRepostory.find();
+  find = async () => this.departmentRepostory.find({relations:["employee"]});
   findOneBy = async (filter: Partial<Department>) => {
-    return this.departmentRepostory.findOne({ where: filter});
+    return this.departmentRepostory.findOne({ where: filter,relations:["employee"]});
   };
   save = async (newDepartment: Department) => {
     const something = await this.departmentRepostory.save(newDepartment);

@@ -108,6 +108,7 @@ export default class DepartmentController {
       next(e);
     }
   };
+    //how to implement deletion
   deleteDepartment = async (
     req: RequestWithUser,
     res: express.Response,
