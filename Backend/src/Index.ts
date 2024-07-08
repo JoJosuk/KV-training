@@ -11,17 +11,17 @@ import departmentRouter from "./routes/department.routes";
 const app = express();
 app.use(express.json());
 
-interface Employee {
-  name: string;
-  age: number;
-}
+// interface Employee {
+//   name: string;
+//   age: number;
+// }
 
-console.log(
-  process.env["PG-USERNAME"],
-  process.env["PG_DATABASE"],
-  process.env["PG-PASSWORD"],
-  process.env.port
-);
+// console.log(
+//   process.env["PG-USERNAME"],
+//   process.env["PG_DATABASE"],
+//   process.env["PG-PASSWORD"],
+//   process.env.port
+// );
 
 app.use(Middleware);
 

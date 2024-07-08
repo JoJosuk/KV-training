@@ -9,7 +9,7 @@ import {
   UpdateEmployeeDto,
 } from "../dto/employee.dto";
 import { validate } from "class-validator";
-import { LoginEmployeeDto } from "../dto/LoginEmployee.dto";
+import { LoginEmployeeDto } from "../dto/loginEmployee.dto";
 import { authMiddleware } from "../middleware/auth.middleware";
 import { RequestWithUser } from "../utils/RequestWithUser";
 import { Role } from "../utils/role.enum";
@@ -99,13 +99,8 @@ class EmployeeController {
       const errors = await validate(employeeDto);
 
       if (errors.length) {
-        // console.log(JSON.stringify(errors));
-        // let resultstr :string ="";
-        // errors.forEach((error)=>
-        //   resultstr+= error
-
-        // )
-        throw new HttpException(400, JSON.stringify(errors), errors);
+        
+        throw new HttpException(400, "Validation error", errors);
       }
       const employeeData = await this.employeeService.createEmployee(
         employeeDto.email,
@@ -139,8 +134,7 @@ class EmployeeController {
         updateAddress.pincode = employeeDto.address.pincode;
         updateAddress.createdAt = employeeDto.address.createdAt;
       }
-      const updateEmployeeStatus = await this.employeeService.updateEmployee(
-        
+      const updateEmployeeStatus = await this.employeeService.updateEmployee( 
         {
           id :Number(req.params.id),
           name: employeeDto.name,

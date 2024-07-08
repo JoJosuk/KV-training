@@ -4,7 +4,7 @@
   "main": "Index.js",
   "scripts": {
     "test": "rm -rf dist/ && jest",
-    "test-coverage": "jest --coverage",
+    "test-coverage": "rm -rf dist/ && jest --coverage",
     "build": "rm -rf dist/ && tsc",
     "dev": "npm run build && node ./dist/src/Index.js",
     "migration:create": "npm run build && npx typeorm migration:create",

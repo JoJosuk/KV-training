@@ -9,7 +9,7 @@ import {
   JoinColumn,
 } from "typeorm";
 import AbstractEntity from "./abstract.entity";
-import Employee from "./Employee.entity";
+import Employee from "./employee.entity";
 @Entity()
 class Address extends AbstractEntity {
   @Column()

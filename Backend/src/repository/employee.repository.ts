@@ -1,8 +1,6 @@
-import { DataSource, Repository } from "typeorm";
-import Employee from "../entity/Employee.entity";
-import { join } from "path";
-import Department from "../entity/department.entity";
-import DepartmentRepository from "./department.repository";
+import {  Repository } from "typeorm";
+import Employee from "../entity/employee.entity";
+
 
 class EmployeeRepository {
   constructor(private employeeRepository: Repository<Employee>) {

@@ -1,4 +1,4 @@
-import Employee from "../entity/Employee.entity";
+import Employee from "../entity/employee.entity";
 import Address from "../entity/address.entity";
 import HttpException from "../exceptions/http.exceptions";
 import EmployeeRepository from "../repository/employee.repository";

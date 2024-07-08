@@ -10,14 +10,14 @@ const errorMiddleware = (
     if (err instanceof HttpException) {
       const status: number = err.status || 500;
       const message: string = err.message || "error case not known";
-      let respbody: any = { message };
+      let respbody: any = { message,status };
       if (err.errorObjectList) {
-        respbody = { message, validationerror: err.errorObjectList };
+        respbody = { message, validationerror: err.errorObjectList,status };
       }
-      res.status(status).json(respbody);
+      res.status(status).json({respbody});
     } else {
       console.error(err.stack);
-      res.status(500).send({ err: err.message });
+      res.status(500).send({ err: err.message,status:500 });
     }
   } catch (error) {
     next(error);
