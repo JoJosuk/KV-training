@@ -27,10 +27,18 @@ export default class DepartmentService {
     return this.departmentRepository.save(updateDepartment);
   };
   deleteDepartment = async (id: number) => {
-    const departmentToBeDeleted = this.departmentRepository.findOneBy({id});
+    const departmentToBeDeleted = await this.departmentRepository.findOneBy({
+      id,
+    });
     if (!departmentToBeDeleted) {
       throw new HttpException(404, "Not found Department");
     }
-    return this.departmentRepository.delete(id)
+    if (departmentToBeDeleted.employee.length > 0) {
+      throw new HttpException(
+        400,
+        "Employees of repository exists so deletion not possible"
+      );
+    }
+    return this.departmentRepository.delete(id);
   };
 }

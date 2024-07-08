@@ -17,7 +17,7 @@ class EmployeeController {
     this.router.post("/login", this.loginEmployee);
     this.router.get("/", authMiddleware, this.getAllEmployees);
     this.router.get("/:id", authMiddleware, this.getEmployeesById);
-    this.router.post("/", this.createEmployee);
+    this.router.post("/", authMiddleware, this.createEmployee);
     this.router.put("/:id", authMiddleware, this.updateEmployee);
     this.router.delete("/:id", authMiddleware, this.deleteEmployeeById);
   }
@@ -140,11 +140,10 @@ class EmployeeController {
           name: employeeDto.name,
           email: employeeDto.email,
           address: employeeDto.address ? updateAddress : undefined,
-          department: employeeDto.department
-          
+          department: employeeDto.department,
         }
       );
-  
+
       return res.status(200).json(updateEmployeeStatus);
     } catch (e) {
       next(e);
@@ -155,7 +154,6 @@ class EmployeeController {
     res: express.Response,
     next: express.NextFunction
   ) => {
-
     try {
       Permission.employeePermission(req, [Role.UX]);
 
