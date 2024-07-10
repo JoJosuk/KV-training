@@ -122,7 +122,7 @@ describe("Employee service", () => {
     mockSave.mockResolvedValue(dummyEmployees[0]);
     employeeRepository.save = mockSave;
     const mockDepartment = jest.fn(departmentRepository.findOneBy);
-    when;
+    when(mockDepartment).calledWith({});
     when(mockSave).calledWith(dummyEmployees[0]);
   });
 });
