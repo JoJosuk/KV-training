@@ -121,8 +121,42 @@ describe("Employee service", () => {
     const mockSave = jest.fn(employeeRepository.save);
     mockSave.mockResolvedValue(dummyEmployees[0]);
     employeeRepository.save = mockSave;
+    // const mockSave = jest.fn();
+    // mockSave.mockImplementation(() => {
+    //   return new Promise((resolve) => resolve(dummyEmployees[0]));
+    // });
+    // employeeRepository.save = mockSave;
+
     const mockDepartment = jest.fn(departmentRepository.findOneBy);
-    when(mockDepartment).calledWith({});
-    when(mockSave).calledWith(dummyEmployees[0]);
+    when(mockDepartment)
+      .calledWith({ name: "HR" })
+      .mockResolvedValue(dummyDepartments[0]);
+    when(mockDepartment)
+      .calledWith({ name: "Engineering" })
+      .mockResolvedValue(dummyDepartments[1]);
+
+    departmentRepository.findOneBy = mockDepartment;
+    const user = await employeeService.createEmployee(
+      dummyEmployees[0].email,
+      dummyEmployees[0].name,
+      dummyAddresses[0],
+      dummyEmployees[0].password,
+      dummyEmployees[0].role,
+      dummyDepartments[0]
+    );
+    // const userPromise = employeeService.createEmployee(
+    //   dummyEmployees[0].email,
+    //   dummyEmployees[0].name,
+    //   dummyAddresses[0],
+    //   dummyEmployees[0].password,
+    //   dummyEmployees[0].role,
+    //   dummyDepartments[0]
+    // );
+
+    // // Await the returned Promise from createEmployee
+    // const user = await userPromise;
+
+    expect(user).toEqual(dummyEmployees[0]);
+    expect(mockSave).toHaveBeenCalledTimes(1);
   });
 });

@@ -22,9 +22,15 @@
 
   aside {
     width: 300px;
-    height: 100vh;
+    height: 90vh;
+    display: flex;
+    flex-direction: column;
+    gap: 17px;
     padding: 20px 0px 0px 10px;
     box-shadow: 4px 0px 8px -2px rgba(0, 0, 0, 0.16);
+    div {
+      cursor: pointer;
+    }
   }
 
   header > img {
@@ -53,6 +59,7 @@
     z-index: 2;
     opacity: 1;
     box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+    display: flex;
   }
 
   .mainwrapper {
@@ -133,7 +140,8 @@
     border: 1px solid #ced4da;
     border-radius: 4px;
   }
-  aside > div {
+  .aside1 {
+    width: 100%;
     display: flex;
     align-items: center;
     background-color: #03aeee;
@@ -143,7 +151,12 @@
     border-radius: 40px 0 0 40px;
     padding: 5px 5px 5px 20px;
   }
-  aside > div > div {
+  #bottomasidediv {
+    flex-grow: 1;
+    display: flex;
+    align-items: end;
+  }
+  .aside2 {
     width: 40px;
     height: 40px;
     background-color: white;

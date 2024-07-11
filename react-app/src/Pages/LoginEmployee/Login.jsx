@@ -4,8 +4,13 @@ import Kvlogo from "../../assets/kv-logo.png";
 import Button from "../../components/Button";
 import LoginInput from "../../components/LoginInput";
 import "./styles.scss";
+import { useNavigate } from "react-router-dom";
 
-const Login = ({ loggedin, loggedinVal }) => {
+const Login = () => {
+  // const navigate = useNavigate();
+  const [loggedin, setLoggedin] = useState(false);
+  const navigate = useNavigate();
+
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [errorUsername, setErrorUsername] = useState(false);
@@ -24,10 +29,18 @@ const Login = ({ loggedin, loggedinVal }) => {
     setPassword(e.target.value);
     // }
   };
+  const handleLogin = () => {
+    localStorage.setItem("token", true);
+    navigate("/employee/");
+  };
 
   useEffect(() => {
     if (loginRef.current) {
       loginRef.current.focus();
+    }
+    const token = localStorage.getItem("token");
+    if (token && token == "true") {
+      navigate("employee");
     }
   }, []);
 
@@ -86,11 +99,7 @@ const Login = ({ loggedin, loggedinVal }) => {
                 error={field.error}
               />
             ))}
-            <Button
-              buttonContent={"Log in"}
-              loggedin={loggedin}
-              loggedinVal={loggedinVal}
-            />
+            <Button buttonContent={"Log in"} loggedin={handleLogin} />
           </form>
         </div>
       </main>

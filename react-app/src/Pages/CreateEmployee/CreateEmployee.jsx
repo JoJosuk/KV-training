@@ -5,6 +5,7 @@ import SelectComponent from "../../components/SelectComponent";
 import CreateEmployeeInput from "./CreateEmployeeInput";
 import "./CreateEmployee.scss";
 import { useEffect, useRef, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const CreateEmployee = () => {
   const [employeeFormData, setEmployeeFormData] = useState({
@@ -17,6 +18,7 @@ const CreateEmployee = () => {
     address: "",
   });
   const employeeRef = useRef(null);
+  const navigate = useNavigate();
 
   const statusOptionList = [
     {
@@ -113,58 +115,56 @@ const CreateEmployee = () => {
     }
     console.log(employeeRef);
   }, [employeeRef.current]);
+
   return (
     <>
-      <div className="stylechanger">
-        <CreateEmployeeHeader />
-        <div className="mainwrapper">
-          <CreateEmployeeSideBar />
-          <main>
-            <section className="sec1">
-              <h1>Create Employee</h1>
-            </section>
-            <section className="sec2">
-              <form action="">
-                {Fields.map((field, index) => {
-                  console.log(index);
-                  return field.optionList ? (
-                    <div key={field.id}>
-                      <SelectComponent
-                        id={field.id}
-                        labelContent={field.labelContent}
-                        name={field.name}
-                        optionList={field.optionList}
-                        value={employeeFormData[field.id]}
-                        SetValue={handleFormData}
-                      />
-                    </div>
-                  ) : (
-                    <div key={field.id}>
-                      <CreateEmployeeInput
-                        {...(index === 0 ? { ref: employeeRef } : null)}
-                        key={field.id}
-                        id={field.id}
-                        inputPlaceholder={field.inputPlaceholder}
-                        labelContent={field.labelContent}
-                        name={field.name}
-                        type={field.type}
-                        value={employeeFormData[field.id]}
-                        SetValue={handleFormData}
-                      />
-                    </div>
-                  );
-                })}
+      {/* <div className="stylechanger">
+        <CreateEmployeeHeader /> */}
 
-                <div className="buttonbox">
-                  <button id="create">Create</button>
-                  <button id="cancel">Cancel</button>
+      <main>
+        <section className="sec1">
+          <h1>Create Employee</h1>
+        </section>
+        <section className="sec2">
+          <form action="">
+            {Fields.map((field, index) => {
+              console.log(index);
+              return field.optionList ? (
+                <div key={field.id}>
+                  <SelectComponent
+                    id={field.id}
+                    labelContent={field.labelContent}
+                    name={field.name}
+                    optionList={field.optionList}
+                    value={employeeFormData[field.id]}
+                    SetValue={handleFormData}
+                  />
                 </div>
-              </form>
-            </section>
-          </main>
-        </div>
-        <div>Create employee</div>
-      </div>
+              ) : (
+                <div key={field.id}>
+                  <CreateEmployeeInput
+                    {...(index === 0 ? { ref: employeeRef } : null)}
+                    key={field.id}
+                    id={field.id}
+                    inputPlaceholder={field.inputPlaceholder}
+                    labelContent={field.labelContent}
+                    name={field.name}
+                    type={field.type}
+                    value={employeeFormData[field.id]}
+                    SetValue={handleFormData}
+                  />
+                </div>
+              );
+            })}
+
+            <div className="buttonbox">
+              <button id="create">Create</button>
+              <button id="cancel">Cancel</button>
+            </div>
+          </form>
+        </section>
+      </main>
+      {/* </div> */}
     </>
   );
 };

@@ -1,10 +1,9 @@
-const Button = ({ buttonContent, loggedin, loggedinVal }) => {
+const Button = ({ buttonContent, loggedin }) => {
   return (
     <button
       type="submit"
-      onClick={(e) => {
-        e.preventDefault();
-        loggedin(loggedinVal);
+      onClick={() => {
+        loggedin();
       }}
     >
       {buttonContent}

@@ -38,20 +38,20 @@ class EmployeeService {
   getEmployeeById = async (id: number) =>
     this.employeeRepository.findOneBy({ id });
 
-  updateEmployee = async ( employee: any) => {
+  updateEmployee = async (employee: any) => {
     const employeeIfThere = await this.getEmployeeById(employee.id);
     if (!employeeIfThere) {
       throw new HttpException(404, "Not found Employee");
     }
-    if (employee.department){
+    if (employee.department) {
       const department = await this.departmentRespository.findOneBy({
         name: employee.department.name,
       });
-      employee.department= department
-      employee.address.id = employeeIfThere.address.id
-      console.log("Department is",department)
+      employee.department = department;
+      employee.address.id = employeeIfThere.address.id;
+      console.log("Department is", department);
     }
-    console.log(employee)
+    console.log(employee);
     return this.employeeRepository.save(employee);
   };
   createEmployee = async (
@@ -81,7 +81,7 @@ class EmployeeService {
     console.log("password", password);
     newEmployee.role = role;
     console.log("new employee", newEmployee);
-    this.employeeRepository.save(newEmployee);
+    return this.employeeRepository.save(newEmployee);
   };
   deleteEmployeeById = async (id: number) => {
     const employeeIfThere = await this.getEmployeeById(id);
