@@ -11,15 +11,15 @@ const App = () => {
 
   return (
     <>
-      {/* {loggedin ? (
+      {loggedin ? (
         <CreateEmployee />
       ) : (
         <Login loggedin={handleLogin} loggedinVal={loggedin} />
-      )} */}
-      <Counter id="1">
+      )}
+      {/* <Counter id="1">
         hello
         <h1>hey</h1>
-      </Counter>
+      </Counter> */}
     </>
   );
 };
