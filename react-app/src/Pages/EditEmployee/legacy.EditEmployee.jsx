@@ -1,16 +1,5 @@
-import CreateEmployeeHeader from "./CreateEmployeeHeader";
-import LoginInput from "../../components/LoginInput";
-import CreateEmployeeSideBar from "./CreateEmployeeSideBar";
-import SelectComponent from "../../components/SelectComponent";
-import CreateEmployeeInput from "./CreateEmployeeInput";
-import "./CreateEmployee.scss";
-import { useEffect, useRef, useState } from "react";
-import { useNavigate } from "react-router-dom";
 import Form from "../../components/Form";
-
-const CreateEmployee = () => {
-  const navigate = useNavigate();
-
+const EditEmployee = ({ values, handleEdit }) => {
   const statusOptionList = [
     {
       value: "select",
@@ -65,7 +54,7 @@ const CreateEmployee = () => {
       inputPlaceholder: "Joining Date",
       labelContent: "Joining Date",
       name: "Joining Date",
-      type: "date",
+      type: "text",
     },
     {
       id: "crole",
@@ -87,36 +76,23 @@ const CreateEmployee = () => {
       type: "text",
     },
     {
-      id: "address1",
+      id: "address",
       inputPlaceholder: "Address",
-      labelContent: "Address Line1",
-      name: "Address Line 1",
-      type: "text",
-    },
-    {
-      id: "address2",
-      inputPlaceholder: "Address",
-      labelContent: "Address Line 2",
-      name: "Address Line 2",
+      labelContent: "Address",
+      name: "Address",
       type: "text",
     },
   ];
-
+  //   const editFields = () => {
+  //     return Fields.map((field) => {});
+  //   };
+  console.log("in modal", values);
   return (
-    <>
-      {/* <div className="stylechanger">
-        <CreateEmployeeHeader /> */}
-
-      <main>
-        <section className="sec1">
-          <h1>Create Employee</h1>
-        </section>
-        <section className="sec2">
-          <Form Fields={Fields} />
-        </section>
-      </main>
-      {/* </div> */}
-    </>
+    <div className="modal">
+      <section className="sec2">
+        <Form Fields={Fields} values={values} handleEdit={handleEdit} />
+      </section>
+    </div>
   );
 };
-export default CreateEmployee;
+export default EditEmployee;

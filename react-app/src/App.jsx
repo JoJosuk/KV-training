@@ -10,6 +10,7 @@ import {
 } from "react-router-dom";
 import HeaderLayout from "./Layout/HeaderLayout";
 import EmployeeList from "./Pages/EmployeeList/EmployeeList";
+import EditEmployee from "./Pages/EditEmployee/EditEmployee";
 
 const App = () => {
   const router = createBrowserRouter([
@@ -31,6 +32,10 @@ const App = () => {
           path: "create",
           element: <CreateEmployee />,
           errorElement: <NotFound />,
+        },
+        {
+          path: "edit/:id",
+          element: <EditEmployee />,
         },
       ],
     },

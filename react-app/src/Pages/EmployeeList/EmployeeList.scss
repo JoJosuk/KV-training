@@ -117,11 +117,13 @@
     display: flex;
     gap: 20px;
     .deleteicon {
+      cursor: pointer;
       width: 30px;
       height: 30px;
       color: red;
     }
     .editicon {
+      cursor: pointer;
       width: 30px;
       height: 30px;
       color: rgb(47, 243, 243);
@@ -147,4 +149,13 @@
       background-color: #cdf2b6;
     }
   }
+}
+.modal {
+  width: 1400px;
+  z-index: 100;
+  background-color: white;
+  position: fixed;
+  top: 10%;
+  box-shadow: 0px 0px 50px rgb(231, 231, 231);
+  left: 15%;
 }
