@@ -1,4 +1,6 @@
+import { useNavigate } from "react-router-dom";
 import "./EmployeeList.scss";
+import { useState } from "react";
 
 const dateformat = (datestring) => {
   const date = new Date(datestring);
@@ -95,16 +97,30 @@ const tempEmployeeList = [
 ];
 const status = "inactive";
 const EmployeeList = () => {
+  const navigate = useNavigate();
+  const [stateEmployeeList, useStateEmployeeList] = useState(tempEmployeeList);
+  const [filterVal, setFilterVal] = useState("Select");
   return (
-    <main>
+    <main className="employeelist">
       <section className="sec1">
         <h1>Employee List</h1>
         <div className="filterbox">
           <p>Filter by </p>
-          <select></select>
-        </div>
-        <div className={`${status.toLowerCase()} status-pill`}>
-          <p>{status}</p>
+          <select>
+            <option value="Status">Status</option>
+            <option value="Probation">Probation</option>
+            <option value="Inactive">Inactive</option>
+            <option value="Active">Active</option>
+          </select>
+          <div
+            className="employeeadd"
+            onClick={() => {
+              navigate("/employee/create");
+            }}
+          >
+            <div className="circularAdd">+</div>
+            Create Employee
+          </div>
         </div>
       </section>
       <div className="tablecontainer">

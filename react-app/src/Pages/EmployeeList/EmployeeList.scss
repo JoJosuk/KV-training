@@ -1,130 +1,150 @@
 * {
   box-sizing: border-box;
 }
-.tablecontainer {
-}
-.filterbox {
-  width: 100%;
-  display: flex;
-}
-table {
-  display: grid;
-  border-collapse: collapse;
-  min-width: 100%;
-  row-gap: 10px;
-  grid-template-columns:
-    minmax(150px, 1.89fr)
-    minmax(150px, 1.67fr)
-    minmax(150px, 1.67fr)
-    minmax(150px, 1.67fr)
-    minmax(150px, 1.67fr)
-    minmax(150px, 1.67fr)
-    minmax(150px, 1.67fr);
-}
-thead,
-tbody,
-tr {
-  display: contents;
-}
-thead th:first-child {
-  border-radius: 10px 0px 0px 10px;
-}
-thead th:last-child {
-  border-radius: 0px 10px 10px 0px;
-}
-
-tr td:first-child {
-  border-radius: 10px 0px 0px 10px;
-}
-tr td:last-child {
-  border-radius: 0px 10px 10px 0px;
-}
-
-// thead {
-//   background-color: #6c7ae0;
-// }
-th,
-td {
-  font-size: 1.2rem;
-  padding: 15px;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-
-th {
-  position: sticky;
-  background-color: #e7f8ff;
-  top: 0;
-  text-align: left;
-  font-weight: 600;
-  font-size: 1rem;
-}
-
-th:last-child {
-  border: 0;
-}
-
-td {
-  background-color: #ffffff;
-  padding-top: 10px;
-  padding-bottom: 10px;
-  color: #000000;
-}
-
-.wrapicons {
-  width: 100%;
-  display: flex;
-  gap: 20px;
-  .deleteicon {
-    width: 30px;
-    height: 30px;
-    color: red;
+.employeelist {
+  .sec1 {
+    padding: 10px;
+    padding-left: 30px;
+    width: 100%;
+    background-color: white;
+    box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+    display: flex;
+    align-items: center;
   }
-  .editicon {
-    width: 30px;
-    height: 30px;
-    color: rgb(47, 243, 243);
+  .filterbox {
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    align-items: center;
+    select {
+      height: 30px;
+      padding: 0px 40px 0px 40px;
+      border-radius: 30px;
+      background-color: #e7f8ff;
+      display: flex;
+      align-items: center;
+    }
   }
-}
-
-.statuscontainer {
-  padding: 10px;
-  .status {
-    padding: 5px;
+  .employeeadd {
+    cursor: pointer;
+    background-color: #e7f8ff;
+    border-radius: 30px;
+    padding-right: 10px;
     display: flex;
     justify-content: center;
-    border-radius: 10px;
-    background-color: aqua;
+    align-items: center;
+    .circularAdd {
+      height: 60px;
+      width: 60px;
+      background-color: #03aeee;
+      color: #ffffff;
+      font-size: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      border-radius: 50%;
+    }
   }
-  #yellow {
-    background-color: #f3e9af;
+  table {
+    display: grid;
+    border-collapse: collapse;
+    min-width: 100%;
+    row-gap: 10px;
+    grid-template-columns:
+      minmax(150px, 1.89fr)
+      minmax(150px, 1.67fr)
+      minmax(150px, 1.67fr)
+      minmax(150px, 1.67fr)
+      minmax(150px, 1.67fr)
+      minmax(150px, 1.67fr)
+      minmax(150px, 1.67fr);
   }
-  #red {
-    background-color: #ffb7b7;
+  thead,
+  tbody,
+  tr {
+    display: contents;
   }
-  #green {
-    background-color: #cdf2b6;
+  thead th:first-child {
+    border-radius: 10px 0px 0px 10px;
   }
-}
+  thead th:last-child {
+    border-radius: 0px 10px 10px 0px;
+  }
 
-.status-pill {
-  padding: 8px;
-  width: 100px;
-  border-radius: 20px;
-  display: flex;
-  justify-content: center;
-}
-.inactive {
-  background-color: rgb(246, 146, 129);
-}
-.probation {
-  background-color: rgb(224, 227, 78);
-}
-.active {
-  background-color: rgb(78, 227, 177);
-}
-.status-pill p {
-  font-size: 15px;
-  color: #1f1f1f;
+  tr td:first-child {
+    border-radius: 10px 0px 0px 10px;
+  }
+  tr td:last-child {
+    border-radius: 0px 10px 10px 0px;
+  }
+
+  // thead {
+  //   background-color: #6c7ae0;
+  // }
+  th,
+  td {
+    font-size: 1.2rem;
+    padding: 15px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  th {
+    position: sticky;
+    background-color: #e7f8ff;
+    top: 0;
+    text-align: left;
+    font-weight: 600;
+    font-size: 1rem;
+  }
+
+  th:last-child {
+    border: 0;
+  }
+
+  td {
+    background-color: #ffffff;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    color: #000000;
+  }
+
+  .wrapicons {
+    width: 100%;
+    display: flex;
+    gap: 20px;
+    .deleteicon {
+      width: 30px;
+      height: 30px;
+      color: red;
+    }
+    .editicon {
+      width: 30px;
+      height: 30px;
+      color: rgb(47, 243, 243);
+    }
+  }
+
+  .statuscontainer {
+    padding: 10px;
+    .status {
+      padding: 5px;
+      display: flex;
+      justify-content: center;
+      border-radius: 10px;
+      background-color: aqua;
+    }
+    #yellow {
+      background-color: #f3e9af;
+    }
+    #red {
+      background-color: #ffb7b7;
+    }
+    #green {
+      background-color: #cdf2b6;
+    }
+  }
 }
