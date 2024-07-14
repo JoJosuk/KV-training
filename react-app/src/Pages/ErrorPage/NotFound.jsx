@@ -1,9 +1,9 @@
 import { Link } from "react-router-dom";
 
-const NotFound = () => {
+const NotFound = (message = "") => {
   return (
     <div className="notfound">
-      <p>page not found</p>
+      {message !== "" ? <p>No Such Id</p> : <p>page not found</p>}
       <Link to={"/"}>Redirect</Link>
     </div>
   );

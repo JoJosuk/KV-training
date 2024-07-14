@@ -11,6 +11,7 @@ import {
 import HeaderLayout from "./Layout/HeaderLayout";
 import EmployeeList from "./Pages/EmployeeList/EmployeeList";
 import EditEmployee from "./Pages/EditEmployee/EditEmployee";
+import EmployeeDetails from "./Pages/EmployeeDetails/EmployeeDetails";
 
 const App = () => {
   const router = createBrowserRouter([
@@ -36,6 +37,11 @@ const App = () => {
         {
           path: "edit/:id",
           element: <EditEmployee />,
+        },
+        {
+          path: ":id",
+          element: <EmployeeDetails />,
+          errorElement: <NotFound />,
         },
       ],
     },

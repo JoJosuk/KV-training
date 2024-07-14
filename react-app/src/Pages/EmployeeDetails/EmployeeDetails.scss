@@ -1,0 +1,46 @@
+.detailcontainer {
+  width: 1300px;
+  background-color: #ffffff;
+  box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+  padding: 20px;
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  .cell {
+    h1 {
+      font-size: 16px;
+      font-weight: 400;
+      opacity: 0.5;
+    }
+    p {
+      font-size: 16px;
+    }
+    .statuscontainer {
+      .status {
+        width: fit-content;
+        padding: 5px;
+        display: flex;
+        justify-content: center;
+        border-radius: 10px;
+        background-color: aqua;
+      }
+      #yellow {
+        background-color: #f3e9af;
+      }
+      #red {
+        background-color: #ffb7b7;
+      }
+      #green {
+        background-color: #cdf2b6;
+      }
+    }
+  }
+  .address {
+    grid-column: 1 / span 2;
+    p {
+      width: 70%;
+    }
+  }
+  .id {
+    grid-column: 3 / span 3;
+  }
+}
