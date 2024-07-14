@@ -6,6 +6,7 @@ import DepartmentRepository from "../../src/repository/department.repository";
 import Department from "../../src/entity/department.entity";
 import Address from "../../src/entity/address.entity";
 import { Role } from "../../src/utils/role.enum";
+import DepartmentService from "../../src/service/department.service";
 
 describe("Employee service", () => {
   let employeeRepository: EmployeeRepository;
@@ -158,5 +159,46 @@ describe("Employee service", () => {
 
     expect(user).toEqual(dummyEmployees[0]);
     expect(mockSave).toHaveBeenCalledTimes(1);
+    expect(mockDepartment).toHaveBeenCalledTimes(1);
+  });
+
+  it.only("should return update employee", async () => {
+    const mockSave = jest.fn();
+    when(mockSave)
+      .calledWith(dummyEmployees[0])
+      .mockResolvedValue(dummyEmployees[0]);
+    employeeRepository.save = mockSave;
+
+    const mockFetchById = jest.fn();
+    when(mockFetchById).calledWith(1).mockResolvedValue(dummyEmployees[0]);
+    employeeService.getEmployeeById = mockFetchById;
+
+    const mockDepartment = jest.fn();
+    when(mockDepartment)
+      .calledWith({ name: "HR" })
+      .mockResolvedValue(dummyDepartments[0]);
+    departmentRepository.findOneBy = mockDepartment;
+
+    const userUpdate = await employeeService.updateEmployee(dummyEmployees[0]);
+    expect(userUpdate).toEqual(dummyEmployees[0]);
+    expect(mockSave).toHaveBeenCalledTimes(1);
+    expect(mockDepartment).toHaveBeenCalledTimes(1);
+    expect(mockFetchById).toHaveBeenCalledTimes(1);
+  });
+
+  it.only("should return delete employee", async () => {
+    const mockFetchById = jest.fn();
+    when(mockFetchById).calledWith(1).mockResolvedValue(dummyEmployees[0]);
+    employeeService.getEmployeeById = mockFetchById;
+
+    const mockDelete = jest.fn();
+    when(mockDelete).calledWith(1).mockResolvedValue(dummyEmployees[0]);
+    employeeRepository.delete = mockDelete;
+
+    expect(await employeeService.deleteEmployeeById(1)).toEqual(
+      dummyEmployees[0]
+    );
+    expect(mockFetchById).toHaveBeenCalledTimes(1);
+    expect(mockDelete).toHaveBeenCalledTimes(1);
   });
 });

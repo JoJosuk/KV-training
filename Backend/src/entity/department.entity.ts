@@ -7,7 +7,7 @@ import { DepartmentNames } from "../utils/department.enum";
 @Unique(["name"])
 export default class Department extends AbstractEntity {
   @Column()
-  name: String;
+  name: string;
 
   @OneToMany(() => Employee, (employee) => employee.department)
   employee: Employee[];

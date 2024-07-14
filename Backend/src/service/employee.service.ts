@@ -88,7 +88,8 @@ class EmployeeService {
     if (!employeeIfThere) {
       throw new HttpException(404, "Not found Employee");
     }
-    this.employeeRepository.delete(id);
+    const hey = this.employeeRepository.delete(id);
+    return hey;
   };
 }
 
