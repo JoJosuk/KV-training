@@ -6,6 +6,7 @@
   display: grid;
   grid-template-columns: repeat(6, 1fr);
   .cell {
+    padding: 10px;
     h1 {
       font-size: 16px;
       font-weight: 400;
@@ -14,33 +15,34 @@
     p {
       font-size: 16px;
     }
-    .statuscontainer {
-      .status {
-        width: fit-content;
-        padding: 5px;
-        display: flex;
-        justify-content: center;
-        border-radius: 10px;
-        background-color: aqua;
-      }
-      #yellow {
-        background-color: #f3e9af;
-      }
-      #red {
-        background-color: #ffb7b7;
-      }
-      #green {
-        background-color: #cdf2b6;
-      }
+
+    .status {
+      width: fit-content;
+      padding: 5px;
+      display: flex;
+      justify-content: center;
+      border-radius: 10px;
+      background-color: aqua;
+    }
+    .Probation {
+      background-color: #f3e9af;
+    }
+    .Inactive {
+      background-color: #ffb7b7;
+    }
+    .Active {
+      background-color: #cdf2b6;
     }
   }
   .address {
+    border-top: 1px solid rgba(0, 0, 0, 0.16);
     grid-column: 1 / span 2;
     p {
       width: 70%;
     }
   }
   .id {
-    grid-column: 3 / span 3;
+    border-top: 1px solid rgba(0, 0, 0, 0.16);
+    grid-column: 3 / span 4;
   }
 }

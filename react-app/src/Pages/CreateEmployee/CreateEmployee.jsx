@@ -11,6 +11,21 @@ import Form from "../../components/Form";
 const CreateEmployee = () => {
   const navigate = useNavigate();
 
+  const deptOptionList = [
+    {
+      value: "select",
+      content: "Select",
+    },
+    {
+      value: "Human Resources",
+      content: "Human Resources",
+    },
+    {
+      value: "Devops",
+      content: "Devops",
+    },
+  ];
+
   const statusOptionList = [
     {
       value: "select",
@@ -99,6 +114,13 @@ const CreateEmployee = () => {
       labelContent: "Address Line 2",
       name: "Address Line 2",
       type: "text",
+    },
+
+    {
+      id: "dept",
+      labelContent: "Department",
+      name: "Department",
+      optionList: deptOptionList,
     },
   ];
 

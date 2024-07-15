@@ -1,6 +1,20 @@
 import { useParams } from "react-router-dom";
 import Form from "../../components/Form";
 import { useEffect } from "react";
+const deptOptionList = [
+  {
+    value: "select",
+    content: "Select",
+  },
+  {
+    value: "Human Resources",
+    content: "Human Resources",
+  },
+  {
+    value: "Devops",
+    content: "Devops",
+  },
+];
 const statusOptionList = [
   {
     value: "select",
@@ -89,6 +103,12 @@ const Fields = [
     labelContent: "Address Line 2",
     name: "Address Line 2",
     type: "text",
+  },
+  {
+    id: "dept",
+    labelContent: "Department",
+    name: "Department",
+    optionList: deptOptionList,
   },
 ];
 
