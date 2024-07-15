@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useReducer, useState } from "react";
 import Login from "./Pages/LoginEmployee/Login";
 import CreateEmployee from "./Pages/CreateEmployee/CreateEmployee";
 import NotFound from "./Pages/ErrorPage/NotFound";
@@ -12,8 +12,14 @@ import HeaderLayout from "./Layout/HeaderLayout";
 import EmployeeList from "./Pages/EmployeeList/EmployeeList";
 import EditEmployee from "./Pages/EditEmployee/EditEmployee";
 import EmployeeDetails from "./Pages/EmployeeDetails/EmployeeDetails";
+import tempEmployeeList from "../utils/dummyData";
+import reducer, { actionTypes } from "./store/reducer";
 
 const App = () => {
+  const [state, dispatch] = useReducer(reducer, {
+    employee: tempEmployeeList,
+    status: "Status",
+  });
   const router = createBrowserRouter([
     {
       path: "/",
@@ -22,7 +28,7 @@ const App = () => {
     },
     {
       path: "/employee",
-      element: <HeaderLayout />,
+      element: <HeaderLayout state={state} dispatch={dispatch} />,
       children: [
         {
           index: true,

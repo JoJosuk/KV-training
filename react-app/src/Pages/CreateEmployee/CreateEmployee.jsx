@@ -5,10 +5,11 @@ import SelectComponent from "../../components/SelectComponent";
 import CreateEmployeeInput from "./CreateEmployeeInput";
 import "./CreateEmployee.scss";
 import { useEffect, useRef, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useOutletContext } from "react-router-dom";
 import Form from "../../components/Form";
 
 const CreateEmployee = () => {
+  const { dispatch } = useOutletContext();
   const navigate = useNavigate();
 
   const deptOptionList = [
@@ -68,13 +69,7 @@ const CreateEmployee = () => {
       name: "Employee name",
       type: "text",
     },
-    {
-      id: "eid",
-      inputPlaceholder: "Employee ID",
-      labelContent: "Employee ID",
-      name: "Employee ID",
-      type: "text",
-    },
+
     {
       id: "jdate",
       inputPlaceholder: "Joining Date",
@@ -134,7 +129,7 @@ const CreateEmployee = () => {
           <h1>Create Employee</h1>
         </section>
         <section className="sec2">
-          <Form Fields={Fields} />
+          <Form Fields={Fields} dispatch={dispatch} />
         </section>
       </main>
       {/* </div> */}

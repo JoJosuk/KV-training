@@ -1,18 +1,75 @@
 import SelectComponent from "./SelectComponent";
 import CreateEmployeeInput from "../Pages/CreateEmployee/CreateEmployeeInput";
 import { useState, useEffect, useRef } from "react";
+import { actionTypes } from "../store/reducer";
+import { useNavigate } from "react-router-dom";
+function getRandomInt(max) {
+  return Math.floor(Math.random() * max);
+}
 
-const Form = ({ Fields, values = "", handleEdit = () => {} }) => {
+const dateformat = (datestring) => {
+  if (!datestring) return "";
+  const [year, month, day] = datestring.split("-");
+  return `${day}.${month}.${year}`;
+};
+
+const Form = ({ Fields, values = "", dispatch = () => {} }) => {
+  const navigate = useNavigate();
   const [employeeFormData, setEmployeeFormData] = useState({
     empname: "",
     eid: "",
-    jdata: "",
+    jdate: new Date(),
     crole: "",
     status: "",
     exp: "",
     address1: "",
     address2: "",
+    department: "",
   });
+  const handleEdit = () => {
+    const tempPayload = {
+      id: employeeFormData.eid,
+      exp: employeeFormData.exp,
+      jdate: dateformat(employeeFormData.jdate),
+      status: employeeFormData.status,
+      name: employeeFormData.empname,
+      role: employeeFormData.crole,
+      address: {
+        line1: employeeFormData.address1,
+        pincode: employeeFormData.address2,
+      },
+      department: {
+        name: employeeFormData.dept,
+      },
+    };
+    console.log("temp payload", tempPayload);
+    dispatch({
+      type: actionTypes.EDIT_EMPLOYEE,
+      payload: tempPayload,
+    });
+  };
+  const handleCreate = () => {
+    console.log(employeeFormData);
+    const tempPayload = {
+      id: getRandomInt(9007199254740991),
+      exp: employeeFormData.exp,
+      jdate: dateformat(employeeFormData.jdate),
+      status: employeeFormData.status,
+      name: employeeFormData.empname,
+      role: employeeFormData.crole,
+      address: {
+        line1: employeeFormData.address1,
+        pincode: employeeFormData.address2,
+      },
+      department: {
+        name: employeeFormData.department,
+      },
+    };
+    dispatch({
+      type: actionTypes.ADD_EMPLOYEE,
+      payload: tempPayload,
+    });
+  };
   useEffect(() => {
     if (values !== "") {
       setEmployeeFormData(values);
@@ -61,7 +118,7 @@ const Form = ({ Fields, values = "", handleEdit = () => {} }) => {
               type={field.type}
               value={employeeFormData[field.id]}
               SetValue={handleFormData}
-              disabled={field.id === "eid"}
+              disabled={values && field.id === "eid"}
             />
           </div>
         );
@@ -73,7 +130,12 @@ const Form = ({ Fields, values = "", handleEdit = () => {} }) => {
           onClick={(e) => {
             e.preventDefault();
             console.log("clicking edit");
-            handleEdit(employeeFormData);
+            if (values) {
+              handleEdit();
+            } else {
+              handleCreate();
+            }
+            navigate("/");
           }}
         >
           {values ? "Edit " : "create"}

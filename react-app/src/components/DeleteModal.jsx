@@ -1,5 +1,5 @@
 import "./DeleteModal.scss";
-const DeleteModal = ({ close }) => {
+const DeleteModal = ({ accept, close, id }) => {
   return (
     <div className="modal">
       <div className="dialog-box">
@@ -9,7 +9,22 @@ const DeleteModal = ({ close }) => {
             close(false);
           }}
         >
-          <div className="cc">x</div>
+          <div className="cc">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              strokeWidth={1.5}
+              stroke="currentColor"
+              className="size-6"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M6 18 18 6M6 6l12 12"
+              />
+            </svg>
+          </div>
         </div>
 
         <h1>Are You Sure?</h1>
@@ -21,7 +36,7 @@ const DeleteModal = ({ close }) => {
           <button
             id="blue"
             onClick={() => {
-              close(false);
+              accept(id);
             }}
           >
             Confirm

@@ -1,6 +1,7 @@
-import { useParams } from "react-router-dom";
+import { useParams, useOutletContext } from "react-router-dom";
 import Form from "../../components/Form";
 import { useEffect } from "react";
+
 const deptOptionList = [
   {
     value: "select",
@@ -111,29 +112,42 @@ const Fields = [
     optionList: deptOptionList,
   },
 ];
+//format date
 
-let values = {
-  empname: "Jojo",
-  eid: "32",
-  jdata: new Date(),
-  crole: "SDE",
-  status: "Inactive",
-  exp: 3,
-  address1: "kanjirappilly",
-  address2: "kanjikuzhi",
-};
 const EditEmployee = () => {
+  const { state, dispatch } = useOutletContext();
+
   const { id } = useParams();
-  useEffect(() => {
-    values.eid = id;
-  }, []);
+  console.log("the id is", id);
+  const getEmployee = () => {
+    if (state) {
+      const employee = state.employee.find((e) => e.id === parseInt(id));
+
+      const values = {
+        empname: employee.name,
+        eid: employee.id,
+        jdate: new Date(employee.jdate).toISOString().split("T")[0],
+        crole: employee.role,
+        status: employee.status,
+        exp: employee.exp,
+        address1: employee.address.line1,
+        address2: employee.address.pincode,
+        dept: employee.department.name,
+      };
+      console.log("values is", values);
+      return values;
+    }
+    return {};
+  };
   return (
     <main>
       <section className="sec1">
         <h1>Edit Employee</h1>
       </section>
       <section className="sec2">
-        <Form Fields={Fields} values={values} />
+        {id && (
+          <Form Fields={Fields} values={getEmployee()} dispatch={dispatch} />
+        )}
       </section>
     </main>
   );

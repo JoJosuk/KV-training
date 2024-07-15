@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { Outlet, useNavigate } from "react-router-dom";
 import CreateEmployeeHeader from "../Pages/CreateEmployee/CreateEmployeeHeader";
 import CreateEmployeeSideBar from "../Pages/CreateEmployee/CreateEmployeeSideBar";
-const HeaderLayout = () => {
+const HeaderLayout = ({ state, dispatch }) => {
   const navigate = useNavigate();
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -17,7 +17,7 @@ const HeaderLayout = () => {
       <CreateEmployeeHeader />
       <div className="mainwrapper">
         <CreateEmployeeSideBar />
-        <Outlet />
+        <Outlet context={{ state, dispatch }} />
       </div>
     </div>
   );

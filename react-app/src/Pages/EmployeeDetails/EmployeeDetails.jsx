@@ -1,4 +1,4 @@
-import { useParams } from "react-router-dom";
+import { useOutletContext, useParams } from "react-router-dom";
 import tempEmployeeList from "../../../utils/dummyData";
 import { useEffect, useState } from "react";
 
@@ -19,9 +19,10 @@ const getNestedPpty = (obj, str) => {
 import "./EmployeeDetails.scss";
 const EmployeeDetails = () => {
   const { id } = useParams();
+  const { state } = useOutletContext();
   const [employeeDetail, setEmployeeDetail] = useState();
   useEffect(() => {
-    const details = tempEmployeeList.filter(
+    const details = state.employee.filter(
       (employee) => employee.id === parseInt(id)
     );
     if (details.length === 0) {
