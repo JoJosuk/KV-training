@@ -51,9 +51,7 @@ class EmployeeService {
 
       employee.department = department;
       employee.address.id = employeeIfThere.address.id;
-      console.log("Department is", department);
     }
-    console.log(employee);
     return this.employeeRepository.save(employee);
   };
   createEmployee = async (

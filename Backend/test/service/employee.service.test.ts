@@ -12,6 +12,7 @@ describe("Employee service", () => {
   let employeeRepository: EmployeeRepository;
   let departmentRepository: DepartmentRepository;
   let employeeService: EmployeeService;
+  let departmentService: DepartmentService;
   let dummyEmployees: Employee[];
   let dummyAddresses: Address[];
   let dummyDepartments: Department[];
@@ -26,9 +27,10 @@ describe("Employee service", () => {
       dataSource.getRepository(Department)
     ) as jest.Mocked<DepartmentRepository>;
 
+    departmentService = new DepartmentService(departmentRepository);
     employeeService = new EmployeeService(
       employeeRepository,
-      departmentRepository
+      departmentService
     );
     dummyAddresses = [
       {
@@ -122,21 +124,15 @@ describe("Employee service", () => {
     const mockSave = jest.fn(employeeRepository.save);
     mockSave.mockResolvedValue(dummyEmployees[0]);
     employeeRepository.save = mockSave;
-    // const mockSave = jest.fn();
-    // mockSave.mockImplementation(() => {
-    //   return new Promise((resolve) => resolve(dummyEmployees[0]));
-    // });
-    // employeeRepository.save = mockSave;
 
-    const mockDepartment = jest.fn(departmentRepository.findOneBy);
+    const mockDepartment = jest.fn(departmentService.getDepartmentByName);
     when(mockDepartment)
-      .calledWith({ name: "HR" })
+      .calledWith("HR")
       .mockResolvedValue(dummyDepartments[0]);
     when(mockDepartment)
-      .calledWith({ name: "Engineering" })
+      .calledWith("Engineering")
       .mockResolvedValue(dummyDepartments[1]);
-
-    departmentRepository.findOneBy = mockDepartment;
+    departmentService.getDepartmentByName = mockDepartment;
     const user = await employeeService.createEmployee(
       dummyEmployees[0].email,
       dummyEmployees[0].name,
@@ -173,11 +169,11 @@ describe("Employee service", () => {
     when(mockFetchById).calledWith(1).mockResolvedValue(dummyEmployees[0]);
     employeeService.getEmployeeById = mockFetchById;
 
-    const mockDepartment = jest.fn();
+    const mockDepartment = jest.fn(departmentService.getDepartmentByName);
     when(mockDepartment)
-      .calledWith({ name: "HR" })
+      .calledWith("HR")
       .mockResolvedValue(dummyDepartments[0]);
-    departmentRepository.findOneBy = mockDepartment;
+    departmentService.getDepartmentByName = mockDepartment;
 
     const userUpdate = await employeeService.updateEmployee(dummyEmployees[0]);
     expect(userUpdate).toEqual(dummyEmployees[0]);
