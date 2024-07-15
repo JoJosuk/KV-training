@@ -88,7 +88,7 @@ const Fields = [
     inputPlaceholder: "Experience",
     labelContent: "Experience",
     name: "Experience",
-    type: "text",
+    type: "number",
   },
   {
     id: "address1",
@@ -118,7 +118,7 @@ let values = {
   jdata: new Date(),
   crole: "SDE",
   status: "Inactive",
-  exp: "3 Years",
+  exp: 3,
   address1: "kanjirappilly",
   address2: "kanjikuzhi",
 };

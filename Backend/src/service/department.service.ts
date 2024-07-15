@@ -11,6 +11,15 @@ export default class DepartmentService {
     newDepartment.name = name;
     return this.departmentRepository.save(newDepartment);
   };
+  getDepartmentByName = async (name: string) => {
+    const department = await this.departmentRepository.findOneBy({
+      name: name,
+    });
+    if (!department) {
+      throw new HttpException(404, "Not found Department");
+    }
+    return department;
+  };
   getDepartmentById = async (id: number) => {
     const department = await this.departmentRepository.findOneBy({ id });
     if (!department) {

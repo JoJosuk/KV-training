@@ -8,13 +8,14 @@ import bcrypt from "bcrypt";
 import { sign } from "jsonwebtoken";
 import Department from "../entity/department.entity";
 import { Repository } from "typeorm";
+import DepartmentService from "./department.service";
 class EmployeeService {
   constructor(
     private employeeRepository: EmployeeRepository,
-    private departmentRespository: DepartmentRepository
+    private departmentService: DepartmentService
   ) {
     this.employeeRepository = employeeRepository;
-    this.departmentRespository = departmentRespository;
+    this.departmentService = departmentService;
   }
   loginEmployeeService = async (email: string, password: string) => {
     const employee = await this.employeeRepository.findOneBy({ email });
@@ -44,9 +45,10 @@ class EmployeeService {
       throw new HttpException(404, "Not found Employee");
     }
     if (employee.department) {
-      const department = await this.departmentRespository.findOneBy({
-        name: employee.department.name,
-      });
+      const department = await this.departmentService.getDepartmentByName(
+        employee.department.name
+      );
+
       employee.department = department;
       employee.address.id = employeeIfThere.address.id;
       console.log("Department is", department);
@@ -62,9 +64,9 @@ class EmployeeService {
     role: Role,
     department: Department
   ) => {
-    const departmentData = await this.departmentRespository.findOneBy({
-      name: department.name,
-    });
+    const departmentData = await this.departmentService.getDepartmentByName(
+      department.name
+    );
     if (!departmentData) {
       throw new HttpException(404, "Department Not Found");
     }
