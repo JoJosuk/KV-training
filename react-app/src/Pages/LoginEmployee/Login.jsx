@@ -5,6 +5,7 @@ import Button from "../../components/Button";
 import LoginInput from "../../components/LoginInput";
 import "./styles.scss";
 import { useNavigate } from "react-router-dom";
+import { useLoginMutation } from "./api";
 
 const Login = () => {
   // const navigate = useNavigate();
@@ -13,11 +14,12 @@ const Login = () => {
 
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [login, { isSuccess, isError }] = useLoginMutation();
   const [errorUsername, setErrorUsername] = useState(false);
   const [errorPassword, setErrorPassword] = useState(false);
   const loginRef = useRef(null);
   const handleUsername = (e) => {
-    if (e.target.value.length < 10) {
+    if (e.target.value.length < 50) {
       setErrorUsername(false);
       setUsername(e.target.value);
     } else {
@@ -29,9 +31,16 @@ const Login = () => {
     setPassword(e.target.value);
     // }
   };
-  const handleLogin = () => {
-    localStorage.setItem("token", true);
-    navigate("/employee/");
+  const handleLogin = async () => {
+    try {
+      const response = await login({ email: username, password: password });
+      console.log(response);
+      console.log(response.data.token);
+      localStorage.setItem("token", response.data.token);
+      navigate("/employee/");
+    } catch (e) {
+      console.log("error is ", e);
+    }
   };
 
   useEffect(() => {
@@ -43,6 +52,12 @@ const Login = () => {
       navigate("employee");
     }
   }, []);
+  useEffect(() => {
+    console.log("IsSuccess", isSuccess);
+  }, [isSuccess]);
+  // useEffect(() => {
+  //   console.log("Data", data);
+  // }, [data]);
 
   // useEffect(() => {
   //   console.log("username : ", username, "Password :", password);

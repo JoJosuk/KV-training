@@ -24,7 +24,6 @@ const reducer = (state, action) => {
         ),
       };
     case actionTypes.EDIT_EMPLOYEE:
-      console.log("hello edit here");
       return {
         ...state,
         employee: state.employee.map((e) => {

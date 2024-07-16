@@ -2,20 +2,34 @@ import { Link, useNavigate, useOutletContext } from "react-router-dom";
 import "./EmployeeList.scss";
 import { useEffect, useState } from "react";
 import DeleteModal from "../../components/DeleteModal";
-import tempEmployeeList from "../../../utils/dummyData";
 import { actionTypes } from "../../store/reducer";
+import { useDispatch, useSelector } from "react-redux";
+import { changeStatus, deleteEmployee } from "../../store/employeeReducer";
+import { useGetEmployeeListQuery } from "./api";
+const dateformat = (str) => {
+  const newStr = str.split("T");
+  const values = newStr[0].split("-");
+  return `${values[2]}- ${values[1]}-${values[0]}`;
+};
 const EmployeeList = () => {
-  const { state, dispatch } = useOutletContext();
+  //redux-state mngmt
+  const dispatch = useDispatch();
+  const employees = useSelector((state) => state.employee.employees);
+  const status = useSelector((state) => state.employee.status);
+  //redux-state mngmt
+
+  const { data = [] } = useGetEmployeeListQuery();
+  useEffect(() => {
+    console.log("data is", data);
+  }, [data]);
+
   const navigate = useNavigate();
   const [deleteFlag, setDeleteFlag] = useState(false);
   const handleEdit = (id) => {
     navigate(`/employee/edit/${id}`);
   };
   const handleDelete = (id) => {
-    dispatch({
-      type: actionTypes.DELETE_EMPLOYEE,
-      payload: id,
-    });
+    dispatch(deleteEmployee(id));
     setDeleteFlag(false);
   };
   useEffect(() => {});
@@ -34,12 +48,9 @@ const EmployeeList = () => {
           <div className="filterbox">
             <p>Filter by </p>
             <select
-              value={state.status}
+              value={status}
               onChange={(e) => {
-                dispatch({
-                  type: actionTypes.CHANGE_STATUS,
-                  payload: e.target.value,
-                });
+                dispatch(changeStatus(e.target.value));
               }}
             >
               <option value="Status">Status</option>
@@ -72,10 +83,9 @@ const EmployeeList = () => {
               </tr>
             </thead>
             <tbody>
-              {state.employee.map(
+              {data.map(
                 (employee) =>
-                  (employee.status === state.status ||
-                    state.status === "Status") && (
+                  (employee.status === status || status === "Status") && (
                     <tr
                       key={employee.id}
                       onClick={() => {
@@ -84,8 +94,8 @@ const EmployeeList = () => {
                     >
                       <td>{employee.name}</td>
                       <td>{employee.id}</td>
-                      {/* <td>{dateformat(employee.createdAt)}</td> */}
-                      <td>{employee.jdate}</td>
+                      <td>{dateformat(employee.createdAt)}</td>
+                      {/* <td>{employee.createdAt}</td> */}
                       <td>{employee.role}</td>
                       <td>
                         <div className="statuscontainer">
@@ -105,7 +115,7 @@ const EmployeeList = () => {
                         </div>
                       </td>
                       {/* <td>{findExperience(employee.createdAt)}</td> */}
-                      <td>{employee.exp}</td>
+                      <td>{employee.experience} Years</td>
                       <td>
                         <div className="wrapicons">
                           <div

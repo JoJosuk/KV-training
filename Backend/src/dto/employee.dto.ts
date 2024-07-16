@@ -1,4 +1,12 @@
-import { IsEmail, IsString, IsNotEmpty, ValidateNested, IsEnum } from "class-validator";
+import {
+  IsEmail,
+  IsString,
+  IsNotEmpty,
+  ValidateNested,
+  IsOptional,
+  IsEnum,
+  IsNumber,
+} from "class-validator";
 import Address from "../entity/address.entity";
 import { CreateAddressDto, UpdateAddressDto } from "./address.dto";
 import { Exclude, Type } from "class-transformer";
@@ -6,6 +14,7 @@ import { Role } from "../utils/role.enum";
 import "reflect-metadata";
 import { CreateDepartmentDto, UpdateDepartmentDto } from "./department.dto";
 import Department from "../entity/department.entity";
+import { Status } from "../utils/status.enum";
 export class CreateEmployeeDto {
   @IsNotEmpty()
   @IsString()
@@ -15,6 +24,12 @@ export class CreateEmployeeDto {
   @IsEmail()
   email: string;
 
+  @IsEnum(Status)
+  status: Status;
+  @IsNumber()
+  @IsNotEmpty()
+  experience: number;
+
   @IsNotEmpty()
   @ValidateNested({ each: true })
   @Type(() => CreateAddressDto)
@@ -22,11 +37,11 @@ export class CreateEmployeeDto {
 
   @IsNotEmpty()
   @IsString()
-  password:string
+  password: string;
 
   @IsNotEmpty()
   @IsEnum(Role)
-  role:Role
+  role: Role;
 
   @ValidateNested()
   @Type(() => CreateDepartmentDto)
@@ -35,10 +50,20 @@ export class CreateEmployeeDto {
 
 export class UpdateEmployeeDto {
   @IsString()
+  @IsOptional()
   name: string;
 
   @IsEmail()
+  @IsOptional()
   email: string;
+
+  @IsEnum(Status)
+  @IsOptional()
+  status?: Status;
+
+  @IsNumber()
+  @IsOptional()
+  experience?: number;
 
   @ValidateNested({ each: true })
   @Type(() => UpdateAddressDto)
@@ -47,10 +72,9 @@ export class UpdateEmployeeDto {
   @ValidateNested()
   @Type(() => UpdateDepartmentDto)
   department: Department;
-
 }
 
 export class OutputEmployeeDto {
   @Exclude()
-  password:string;
+  password: string;
 }

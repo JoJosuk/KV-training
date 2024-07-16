@@ -8,6 +8,7 @@ import employeeRouter from "./routes/employee.routes";
 import HttpException from "./exceptions/http.exceptions";
 import errorMiddleware from "./middleware/error.middleware";
 import departmentRouter from "./routes/department.routes";
+const cors = require("cors");
 const app = express();
 app.use(express.json());
 
@@ -24,6 +25,7 @@ app.use(express.json());
 // );
 
 app.use(Middleware);
+app.use(cors());
 
 app.use("/employee", employeeRouter);
 app.use("/department", departmentRouter);

@@ -99,7 +99,6 @@ class EmployeeController {
       const errors = await validate(employeeDto);
 
       if (errors.length) {
-        
         throw new HttpException(400, "Validation error", errors);
       }
       const employeeData = await this.employeeService.createEmployee(
@@ -108,7 +107,9 @@ class EmployeeController {
         employeeDto.address,
         employeeDto.password,
         employeeDto.role,
-        employeeDto.department
+        employeeDto.department,
+        employeeDto.status,
+        employeeDto.experience
       );
       res.status(201).json("created data");
     } catch (e) {
@@ -134,15 +135,15 @@ class EmployeeController {
         updateAddress.pincode = employeeDto.address.pincode;
         updateAddress.createdAt = employeeDto.address.createdAt;
       }
-      const updateEmployeeStatus = await this.employeeService.updateEmployee( 
-        {
-          id :Number(req.params.id),
-          name: employeeDto.name,
-          email: employeeDto.email,
-          address: employeeDto.address ? updateAddress : undefined,
-          department: employeeDto.department,
-        }
-      );
+      const updateEmployeeStatus = await this.employeeService.updateEmployee({
+        id: Number(req.params.id),
+        name: employeeDto.name,
+        email: employeeDto.email,
+        address: employeeDto.address ? updateAddress : undefined,
+        department: employeeDto.department,
+        status: employeeDto.status,
+        experience: employeeDto.experience,
+      });
       const outputEmployeeDto = plainToInstance(
         OutputEmployeeDto,
         updateEmployeeStatus

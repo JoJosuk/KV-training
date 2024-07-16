@@ -7,7 +7,7 @@ const HeaderLayout = ({ state, dispatch }) => {
   useEffect(() => {
     const token = localStorage.getItem("token");
     console.log(token);
-    if (!token && token !== "true") {
+    if (!token) {
       alert("Please login to further ");
       navigate("/");
     }

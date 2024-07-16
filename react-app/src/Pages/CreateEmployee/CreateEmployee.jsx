@@ -7,10 +7,11 @@ import "./CreateEmployee.scss";
 import { useEffect, useRef, useState } from "react";
 import { useNavigate, useOutletContext } from "react-router-dom";
 import Form from "../../components/Form";
+import { useDispatch } from "react-redux";
 
 const CreateEmployee = () => {
-  const { dispatch } = useOutletContext();
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const deptOptionList = [
     {
@@ -52,12 +53,20 @@ const CreateEmployee = () => {
       content: "Select",
     },
     {
-      value: "SDE",
-      content: "SDE",
+      value: "UI",
+      content: "UI",
     },
     {
-      value: "SAE",
-      content: "SAE",
+      value: "UX",
+      content: "UX",
+    },
+    {
+      value: "Developer",
+      content: "Developer",
+    },
+    {
+      value: "HR",
+      content: "HR",
     },
   ];
 
@@ -67,6 +76,13 @@ const CreateEmployee = () => {
       inputPlaceholder: "Employee name",
       labelContent: "Employee name",
       name: "Employee name",
+      type: "text",
+    },
+    {
+      id: "email",
+      inputPlaceholder: "Employee email",
+      labelContent: "Employee Email",
+      name: "email",
       type: "text",
     },
 

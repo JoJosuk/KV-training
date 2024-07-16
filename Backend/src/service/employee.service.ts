@@ -9,6 +9,7 @@ import { sign } from "jsonwebtoken";
 import Department from "../entity/department.entity";
 import { Repository } from "typeorm";
 import DepartmentService from "./department.service";
+import { Status } from "../utils/status.enum";
 class EmployeeService {
   constructor(
     private employeeRepository: EmployeeRepository,
@@ -60,7 +61,9 @@ class EmployeeService {
     address: any,
     password: string,
     role: Role,
-    department: Department
+    department: Department,
+    status: Status,
+    experience: number
   ) => {
     const departmentData = await this.departmentService.getDepartmentByName(
       department.name
@@ -72,6 +75,8 @@ class EmployeeService {
     newEmployee.email = email;
     newEmployee.name = name;
     newEmployee.department = departmentData;
+    newEmployee.status = status;
+    newEmployee.experience = experience;
 
     const newAddress = new Address();
     newAddress.line1 = address.line1;

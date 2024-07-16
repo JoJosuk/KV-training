@@ -14,6 +14,8 @@ import EditEmployee from "./Pages/EditEmployee/EditEmployee";
 import EmployeeDetails from "./Pages/EmployeeDetails/EmployeeDetails";
 import tempEmployeeList from "../utils/dummyData";
 import reducer, { actionTypes } from "./store/reducer";
+import store from "./store/store";
+import { Provider } from "react-redux";
 
 const App = () => {
   const [state, dispatch] = useReducer(reducer, {
@@ -68,7 +70,9 @@ const App = () => {
         hello
         <h1>hey</h1>
       </Counter> */}
-      <RouterProvider router={router} />
+      <Provider store={store}>
+        <RouterProvider router={router} />
+      </Provider>
     </>
   );
 };

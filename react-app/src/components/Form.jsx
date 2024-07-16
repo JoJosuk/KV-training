@@ -3,6 +3,8 @@ import CreateEmployeeInput from "../Pages/CreateEmployee/CreateEmployeeInput";
 import { useState, useEffect, useRef } from "react";
 import { actionTypes } from "../store/reducer";
 import { useNavigate } from "react-router-dom";
+import { addEmployee } from "../store/employeeReducer";
+import { useAddEmployeeMutation } from "../Pages/EmployeeList/api";
 function getRandomInt(max) {
   return Math.floor(Math.random() * max);
 }
@@ -15,6 +17,7 @@ const dateformat = (datestring) => {
 
 const Form = ({ Fields, values = "", dispatch = () => {} }) => {
   const navigate = useNavigate();
+  const [addEmployee] = useAddEmployeeMutation();
   const [employeeFormData, setEmployeeFormData] = useState({
     empname: "",
     eid: "",
@@ -25,6 +28,7 @@ const Form = ({ Fields, values = "", dispatch = () => {} }) => {
     address1: "",
     address2: "",
     department: "",
+    email: "",
   });
   const handleEdit = () => {
     const tempPayload = {
@@ -48,12 +52,12 @@ const Form = ({ Fields, values = "", dispatch = () => {} }) => {
       payload: tempPayload,
     });
   };
-  const handleCreate = () => {
+  const handleCreate = async () => {
     console.log(employeeFormData);
     const tempPayload = {
-      id: getRandomInt(9007199254740991),
-      exp: employeeFormData.exp,
-      jdate: dateformat(employeeFormData.jdate),
+      password: "password",
+      email: employeeFormData.email,
+      experience: Number(employeeFormData.exp),
       status: employeeFormData.status,
       name: employeeFormData.empname,
       role: employeeFormData.crole,
@@ -62,13 +66,12 @@ const Form = ({ Fields, values = "", dispatch = () => {} }) => {
         pincode: employeeFormData.address2,
       },
       department: {
-        name: employeeFormData.department,
+        name: employeeFormData.dept,
       },
     };
-    dispatch({
-      type: actionTypes.ADD_EMPLOYEE,
-      payload: tempPayload,
-    });
+
+    const response = await addEmployee(tempPayload);
+    console.log("response", response);
   };
   useEffect(() => {
     if (values !== "") {
@@ -135,7 +138,7 @@ const Form = ({ Fields, values = "", dispatch = () => {} }) => {
             } else {
               handleCreate();
             }
-            navigate("/");
+            // navigate("/");
           }}
         >
           {values ? "Edit " : "create"}
