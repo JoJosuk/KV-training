@@ -1,8 +1,8 @@
 const tempEmployeeList = [
   {
     id: 12,
-    exp: "1 Year",
-    jdate: "10.02.24",
+    exp: "1 ",
+    jdate: "10.02.2024",
     status: "Probation",
     name: "Reenphy",
     email: "reenphy@hotmail.com",
@@ -19,8 +19,8 @@ const tempEmployeeList = [
   },
   {
     id: 13,
-    exp: "2 Year",
-    jdate: "15.05.09",
+    exp: "2 ",
+    jdate: "15.05.2009",
     status: "Inactive",
     name: "Jojo",
     email: "jojo@gmail.com",
@@ -37,8 +37,8 @@ const tempEmployeeList = [
   },
   {
     id: 14,
-    exp: "4 year",
-    jdate: "01.02.11",
+    exp: "4 ",
+    jdate: "01.02.2011",
     status: "Active",
     name: "meekha",
     email: "meekha@gmailgd.com",

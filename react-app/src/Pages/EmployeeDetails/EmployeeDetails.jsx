@@ -9,10 +9,28 @@ const Fields = [
   { label: "Role", key: "role", classname: "" },
   { label: "Status", key: "status", classname: "" },
   { label: "Department", key: "department.name", classname: "" },
-  { label: "Address", key: "address.line1", classname: "address" }, // assuming address is an object
+  {
+    label: "Address",
+    key: "address.line1,address.pincode",
+    classname: "address",
+  }, // assuming address is an object
   { label: "Employee ID", key: "id", classname: "id" },
 ];
 const getNestedPpty = (obj, str) => {
+  if (str.includes(",")) {
+    let arr = str.split(",");
+    arr = arr.map((a) => {
+      let amap = a.split(".");
+      return amap.reduce((acc, key) => acc && acc[key], obj);
+    });
+    return arr.reduce((acc, cv) => {
+      if (acc === "") {
+        return cv;
+      } else {
+        return acc + ", " + cv;
+      }
+    });
+  }
   const arr = str.split(".");
   return arr.reduce((acc, key) => acc && acc[key], obj);
 };
@@ -40,7 +58,7 @@ const EmployeeDetails = () => {
       {employeeDetail && (
         <div className="detailcontainer">
           {Fields.map((field) => (
-            <div className={`cell ${field.classname}`}>
+            <div className={`cell ${field.classname}`} key={field.key}>
               <h1>{field.label}</h1>
               <p
                 className={
