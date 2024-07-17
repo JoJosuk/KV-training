@@ -35,7 +35,8 @@ const DeleteModal = ({ accept, close, id }) => {
         <div className="button-box">
           <button
             id="blue"
-            onClick={() => {
+            onClick={(e) => {
+              e.preventDefault();
               accept(id);
             }}
           >

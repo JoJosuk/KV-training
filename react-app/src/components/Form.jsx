@@ -5,6 +5,7 @@ import { actionTypes } from "../store/reducer";
 import { useNavigate } from "react-router-dom";
 import { addEmployee } from "../store/employeeReducer";
 import { useAddEmployeeMutation } from "../Pages/EmployeeList/api";
+import { useEditEmployeeMutation } from "../Pages/EmployeeList/api";
 function getRandomInt(max) {
   return Math.floor(Math.random() * max);
 }
@@ -18,6 +19,8 @@ const dateformat = (datestring) => {
 const Form = ({ Fields, values = "", dispatch = () => {} }) => {
   const navigate = useNavigate();
   const [addEmployee] = useAddEmployeeMutation();
+  const [EditEmployee] = useEditEmployeeMutation();
+
   const [employeeFormData, setEmployeeFormData] = useState({
     empname: "",
     eid: "",
@@ -30,11 +33,9 @@ const Form = ({ Fields, values = "", dispatch = () => {} }) => {
     department: "",
     email: "",
   });
-  const handleEdit = () => {
+  const handleEdit = async () => {
     const tempPayload = {
-      id: employeeFormData.eid,
-      exp: employeeFormData.exp,
-      jdate: dateformat(employeeFormData.jdate),
+      experience: employeeFormData.exp,
       status: employeeFormData.status,
       name: employeeFormData.empname,
       role: employeeFormData.crole,
@@ -46,11 +47,13 @@ const Form = ({ Fields, values = "", dispatch = () => {} }) => {
         name: employeeFormData.dept,
       },
     };
-    console.log("temp payload", tempPayload);
-    dispatch({
-      type: actionTypes.EDIT_EMPLOYEE,
+    const response = await EditEmployee({
+      id: employeeFormData.eid,
       payload: tempPayload,
     });
+    navigate("/employee");
+    console.log("response is", response);
+    dispatch(employeeFormData.eid, tempPayload);
   };
   const handleCreate = async () => {
     console.log(employeeFormData);
@@ -97,7 +100,6 @@ const Form = ({ Fields, values = "", dispatch = () => {} }) => {
   return (
     <form action="">
       {Fields.map((field, index) => {
-        console.log(field.id);
         return field.optionList ? (
           <div key={field.id}>
             <SelectComponent

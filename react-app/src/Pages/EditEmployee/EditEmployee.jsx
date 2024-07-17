@@ -1,7 +1,8 @@
-import { useParams, useOutletContext } from "react-router-dom";
+import { useParams, useOutletContext, useNavigate } from "react-router-dom";
 import Form from "../../components/Form";
 import { useEffect } from "react";
-
+import { useEditEmployeeMutation } from "../EmployeeList/api";
+import { useGetEmployeeDetailsQuery } from "../EmployeeList/api";
 const deptOptionList = [
   {
     value: "select",
@@ -41,12 +42,20 @@ const croleOptionList = [
     content: "Select",
   },
   {
-    value: "SDE",
-    content: "SDE",
+    value: "UI",
+    content: "UI",
   },
   {
-    value: "SAE",
-    content: "SAE",
+    value: "UX",
+    content: "UX",
+  },
+  {
+    value: "Developer",
+    content: "Developer",
+  },
+  {
+    value: "HR",
+    content: "HR",
   },
 ];
 
@@ -115,21 +124,31 @@ const Fields = [
 //format date
 
 const EditEmployee = () => {
-  const { state, dispatch } = useOutletContext();
+  const navigate = useNavigate();
+  const { state } = useOutletContext();
+  const [EditEmployee] = useEditEmployeeMutation();
+  const handleEdit = async (id, body) => {
+    console.log("the handle edit", body);
+    const response = await EditEmployee(id, body);
+    navigate("/employee");
+    console.log("response is", response);
+  };
 
   const { id } = useParams();
+  const { data = {}, isError, isSuccess } = useGetEmployeeDetailsQuery(id);
   console.log("the id is", id);
   const getEmployee = () => {
-    if (state) {
-      const employee = state.employee.find((e) => e.id === parseInt(id));
+    if (isSuccess) {
+      const employee = data;
+      console.log("getemployeeby id", employee, isError, isSuccess);
 
       const values = {
         empname: employee.name,
         eid: employee.id,
-        jdate: new Date(employee.jdate).toISOString().split("T")[0],
+        jdate: new Date(employee.createdAt).toISOString().split("T")[0],
         crole: employee.role,
         status: employee.status,
-        exp: employee.exp,
+        exp: employee.experience,
         address1: employee.address.line1,
         address2: employee.address.pincode,
         dept: employee.department.name,
@@ -145,9 +164,7 @@ const EditEmployee = () => {
         <h1>Edit Employee</h1>
       </section>
       <section className="sec2">
-        {id && (
-          <Form Fields={Fields} values={getEmployee()} dispatch={dispatch} />
-        )}
+        {id && <Form Fields={Fields} values={getEmployee()} />}
       </section>
     </main>
   );

@@ -1,0 +1,12 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`check if button works properly check if the snapshot is matched properly 1`] = `
+<DocumentFragment>
+  <button
+    data-testid="button-component"
+    type="submit"
+  >
+    Click
+  </button>
+</DocumentFragment>
+`;

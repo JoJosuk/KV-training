@@ -4,8 +4,8 @@ import { useEffect, useState } from "react";
 
 const Fields = [
   { label: "Employee name", key: "name", classname: "" },
-  { label: "Joining Date", key: "jdate", classname: "" },
-  { label: "Experience", key: "exp", classname: "" },
+  { label: "Joining Date", key: "createdAt", classname: "" },
+  { label: "Experience", key: "experience", classname: "" },
   { label: "Role", key: "role", classname: "" },
   { label: "Status", key: "status", classname: "" },
   { label: "Department", key: "department.name", classname: "" },
@@ -35,21 +35,28 @@ const getNestedPpty = (obj, str) => {
   return arr.reduce((acc, key) => acc && acc[key], obj);
 };
 import "./EmployeeDetails.scss";
+import { useGetEmployeeDetailsQuery } from "../EmployeeList/api";
 const EmployeeDetails = () => {
   const { id } = useParams();
   const { state } = useOutletContext();
-  const [employeeDetail, setEmployeeDetail] = useState();
+  const { data = {}, isError, isSuccess } = useGetEmployeeDetailsQuery(id);
+  const [employeeDetail, setEmployeeDetail] = useState([]);
   useEffect(() => {
-    const details = state.employee.filter(
-      (employee) => employee.id === parseInt(id)
-    );
-    if (details.length === 0) {
-      console.log("error");
-      throw new Error();
-    }
-    console.log("details", details[0]);
-    setEmployeeDetail(details[0]);
-  }, []);
+    console.log(data);
+    setEmployeeDetail(data);
+  }, [isSuccess]);
+  // useEffect(() => {
+  //   const details = state.employee.filter(
+  //     (employee) => employee.id === parseInt(id)
+  //   );
+  //   if (details.length === 0) {
+  //     console.log("error");
+  //     throw new Error();
+  //   }
+  //   console.log("details", details[0]);
+  //   setEmployeeDetail(details[0]);
+  // }, []);
+
   return (
     <main>
       <section className="sec1">

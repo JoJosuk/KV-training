@@ -5,7 +5,7 @@ import DeleteModal from "../../components/DeleteModal";
 import { actionTypes } from "../../store/reducer";
 import { useDispatch, useSelector } from "react-redux";
 import { changeStatus, deleteEmployee } from "../../store/employeeReducer";
-import { useGetEmployeeListQuery } from "./api";
+import { useDeleteEmployeeMutation, useGetEmployeeListQuery } from "./api";
 const dateformat = (str) => {
   const newStr = str.split("T");
   const values = newStr[0].split("-");
@@ -25,14 +25,15 @@ const EmployeeList = () => {
 
   const navigate = useNavigate();
   const [deleteFlag, setDeleteFlag] = useState(false);
+  const [deleteEmployee, { isSuccess }] = useDeleteEmployeeMutation();
   const handleEdit = (id) => {
     navigate(`/employee/edit/${id}`);
   };
-  const handleDelete = (id) => {
-    dispatch(deleteEmployee(id));
+  const handleDelete = async (id) => {
+    const response = await deleteEmployee(id.toString());
+    console.log("delete response", response);
     setDeleteFlag(false);
   };
-  useEffect(() => {});
   return (
     <>
       {deleteFlag && (

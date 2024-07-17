@@ -1,5 +1,5 @@
 import { forwardRef } from "react";
-
+import React from "react";
 const WrapperLoginInput = (
   {
     type,
@@ -16,8 +16,9 @@ const WrapperLoginInput = (
   return (
     <>
       <span className={`${error ? "red" : ""}`}>
-        <label htmlFor={id}>{labelContent}</label>
+        <label htmlFor={id}> {labelContent}</label>
         <input
+          data-testid="input-container"
           ref={ref}
           type={type}
           name={name}
