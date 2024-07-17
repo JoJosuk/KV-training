@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import Logo from "../../assets/heroimg.jpeg";
 import Kvlogo from "../../assets/kv-logo.png";
 import Button from "../../components/Button";
@@ -6,8 +6,10 @@ import LoginInput from "../../components/LoginInput";
 import "./styles.scss";
 import { useNavigate } from "react-router-dom";
 import { useLoginMutation } from "./api";
+import { ToastContext } from "../../ToastContext";
 
 const Login = () => {
+  const { showToast } = useContext(ToastContext);
   // const navigate = useNavigate();
   const [loggedin, setLoggedin] = useState(false);
   const navigate = useNavigate();
@@ -34,6 +36,12 @@ const Login = () => {
   const handleLogin = async () => {
     try {
       const response = await login({ email: username, password: password });
+      console.log(response);
+
+      if (response.error) {
+        showToast(response.error.data.respbody.message);
+        return;
+      }
       console.log(response);
       console.log(response.data.token);
       localStorage.setItem("token", response.data.token);

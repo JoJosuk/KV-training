@@ -1,6 +1,8 @@
 import { useOutletContext, useParams } from "react-router-dom";
 import tempEmployeeList from "../../../utils/dummyData";
 import { useEffect, useState } from "react";
+import { ToastContext } from "../../ToastContext";
+import { useContext } from "react";
 
 const Fields = [
   { label: "Employee name", key: "name", classname: "" },
@@ -39,12 +41,23 @@ import { useGetEmployeeDetailsQuery } from "../EmployeeList/api";
 const EmployeeDetails = () => {
   const { id } = useParams();
   const { state } = useOutletContext();
+  const { showToast } = useContext(ToastContext);
+
   const { data = {}, isError, isSuccess } = useGetEmployeeDetailsQuery(id);
   const [employeeDetail, setEmployeeDetail] = useState([]);
   useEffect(() => {
     console.log(data);
     setEmployeeDetail(data);
   }, [isSuccess]);
+  useEffect(() => {
+    if (isError) {
+      try {
+        showToast(data.error.data.respbody.message);
+      } catch (e) {
+        showToast("Unknown error");
+      }
+    }
+  }, [isError]);
   // useEffect(() => {
   //   const details = state.employee.filter(
   //     (employee) => employee.id === parseInt(id)

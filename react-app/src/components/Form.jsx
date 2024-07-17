@@ -1,11 +1,13 @@
 import SelectComponent from "./SelectComponent";
 import CreateEmployeeInput from "../Pages/CreateEmployee/CreateEmployeeInput";
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useContext } from "react";
 import { actionTypes } from "../store/reducer";
 import { useNavigate } from "react-router-dom";
 import { addEmployee } from "../store/employeeReducer";
 import { useAddEmployeeMutation } from "../Pages/EmployeeList/api";
 import { useEditEmployeeMutation } from "../Pages/EmployeeList/api";
+import { ToastContext } from "../ToastContext";
+
 function getRandomInt(max) {
   return Math.floor(Math.random() * max);
 }
@@ -17,6 +19,8 @@ const dateformat = (datestring) => {
 };
 
 const Form = ({ Fields, values = "", dispatch = () => {} }) => {
+  const { showToast } = useContext(ToastContext);
+
   const navigate = useNavigate();
   const [addEmployee] = useAddEmployeeMutation();
   const [EditEmployee] = useEditEmployeeMutation();
@@ -51,7 +55,16 @@ const Form = ({ Fields, values = "", dispatch = () => {} }) => {
       id: employeeFormData.eid,
       payload: tempPayload,
     });
-    navigate("/employee");
+    if (response.error) {
+      try {
+        showToast(response.error.data.respbody.message);
+      } catch (e) {
+        console.log("error ", e);
+        showToast("unknown error");
+      }
+      return;
+    }
+    navigate(`/employee/${employeeFormData.eid}`);
     console.log("response is", response);
     dispatch(employeeFormData.eid, tempPayload);
   };
@@ -74,6 +87,15 @@ const Form = ({ Fields, values = "", dispatch = () => {} }) => {
     };
 
     const response = await addEmployee(tempPayload);
+    if (response.error) {
+      if (response.error.data.respbody.validationerror) {
+        showToast(response.error.data.respbody.validationerror[0]);
+        return;
+      }
+      showToast(response.error.data.respbody.message);
+      return;
+    }
+    navigate("/employee");
     console.log("response", response);
   };
   useEffect(() => {

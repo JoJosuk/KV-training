@@ -11,6 +11,7 @@ export const employeeApi = apiWithTag.injectEndpoints({
         url: `/employee/${id}`,
         method: "GET",
       }),
+      providesTags: ["EMPLOYEE_LIST"],
     }),
     addEmployee: builder.mutation({
       query: (body) => ({
