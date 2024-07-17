@@ -145,7 +145,7 @@ const EditEmployee = () => {
       const values = {
         empname: employee.name,
         eid: employee.id,
-        jdate: new Date(employee.createdAt).toISOString().split("T")[0],
+        jdate: new Date(employee.jdate).toISOString().split("T")[0],
         crole: employee.role,
         status: employee.status,
         exp: employee.experience,

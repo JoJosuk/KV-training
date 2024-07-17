@@ -6,6 +6,8 @@ import {
   IsOptional,
   IsEnum,
   IsNumber,
+  IsDate,
+  IsDateString,
 } from "class-validator";
 import Address from "../entity/address.entity";
 import { CreateAddressDto, UpdateAddressDto } from "./address.dto";
@@ -43,6 +45,10 @@ export class CreateEmployeeDto {
   @IsEnum(Role)
   role: Role;
 
+  @IsNotEmpty()
+  @IsDateString()
+  jdate: Date;
+
   @ValidateNested()
   @Type(() => CreateDepartmentDto)
   department: Department;
@@ -64,6 +70,10 @@ export class UpdateEmployeeDto {
   @IsNumber()
   @IsOptional()
   experience?: number;
+
+  @IsDateString()
+  @IsOptional()
+  jdate: Date;
 
   @ValidateNested({ each: true })
   @Type(() => UpdateAddressDto)

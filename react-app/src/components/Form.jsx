@@ -39,7 +39,8 @@ const Form = ({ Fields, values = "", dispatch = () => {} }) => {
   });
   const handleEdit = async () => {
     const tempPayload = {
-      experience: employeeFormData.exp,
+      experience: Number(employeeFormData.exp),
+      jdate: new Date(employeeFormData.jdate).toISOString(),
       status: employeeFormData.status,
       name: employeeFormData.empname,
       role: employeeFormData.crole,
@@ -72,6 +73,7 @@ const Form = ({ Fields, values = "", dispatch = () => {} }) => {
     console.log(employeeFormData);
     const tempPayload = {
       password: "password",
+      jdate: new Date(employeeFormData.jdate).toISOString(),
       email: employeeFormData.email,
       experience: Number(employeeFormData.exp),
       status: employeeFormData.status,

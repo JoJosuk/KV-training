@@ -63,7 +63,8 @@ class EmployeeService {
     role: Role,
     department: Department,
     status: Status,
-    experience: number
+    experience: number,
+    jdate: Date
   ) => {
     const departmentData = await this.departmentService.getDepartmentByName(
       department.name
@@ -77,6 +78,7 @@ class EmployeeService {
     newEmployee.department = departmentData;
     newEmployee.status = status;
     newEmployee.experience = experience;
+    newEmployee.jdate = jdate;
 
     const newAddress = new Address();
     newAddress.line1 = address.line1;

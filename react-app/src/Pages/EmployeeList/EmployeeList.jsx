@@ -6,6 +6,7 @@ import { actionTypes } from "../../store/reducer";
 import { useDispatch, useSelector } from "react-redux";
 import { changeStatus, deleteEmployee } from "../../store/employeeReducer";
 import { useDeleteEmployeeMutation, useGetEmployeeListQuery } from "./api";
+import { useGetDepartmentListQuery } from "./department.api";
 const dateformat = (str) => {
   const newStr = str.split("T");
   const values = newStr[0].split("-");
@@ -22,6 +23,9 @@ const EmployeeList = () => {
   useEffect(() => {
     console.log("data is", data);
   }, [data]);
+  // useEffect(() => {
+  //   console.log("department data is ", data);
+  // }, [departmentdata]);
 
   const navigate = useNavigate();
   const [deleteFlag, setDeleteFlag] = useState(false);
@@ -95,7 +99,7 @@ const EmployeeList = () => {
                     >
                       <td>{employee.name}</td>
                       <td>{employee.id}</td>
-                      <td>{dateformat(employee.createdAt)}</td>
+                      <td>{dateformat(employee.jdate)}</td>
                       {/* <td>{employee.createdAt}</td> */}
                       <td>{employee.role}</td>
                       <td>

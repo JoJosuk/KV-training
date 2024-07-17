@@ -31,6 +31,9 @@ class Employee extends AbstractEntity {
   @Column({ nullable: true })
   experience: number;
 
+  @Column({ nullable: true })
+  jdate: Date;
+
   @ManyToOne(() => Department, (department) => department.employee)
   department: Department;
 }

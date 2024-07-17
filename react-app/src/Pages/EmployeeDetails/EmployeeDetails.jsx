@@ -3,10 +3,25 @@ import tempEmployeeList from "../../../utils/dummyData";
 import { useEffect, useState } from "react";
 import { ToastContext } from "../../ToastContext";
 import { useContext } from "react";
+function isISOString(str) {
+  const isoRegex =
+    /^(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2}):(\d{2})(\.\d{1,3})?Z?$/;
+
+  return isoRegex.test(str);
+}
+const dateformat = (str) => {
+  if (isISOString(str)) {
+    const newStr = str.split("T");
+    const values = newStr[0].split("-");
+    return `${values[2]}- ${values[1]}-${values[0]}`;
+  } else {
+    return str;
+  }
+};
 
 const Fields = [
   { label: "Employee name", key: "name", classname: "" },
-  { label: "Joining Date", key: "createdAt", classname: "" },
+  { label: "Joining Date", key: "jdate", classname: "" },
   { label: "Experience", key: "experience", classname: "" },
   { label: "Role", key: "role", classname: "" },
   { label: "Status", key: "status", classname: "" },
@@ -87,7 +102,7 @@ const EmployeeDetails = () => {
                     : ""
                 }
               >
-                {getNestedPpty(employeeDetail, field.key)}
+                {dateformat(getNestedPpty(employeeDetail, field.key))}
               </p>
             </div>
           ))}

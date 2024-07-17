@@ -109,7 +109,8 @@ class EmployeeController {
         employeeDto.role,
         employeeDto.department,
         employeeDto.status,
-        employeeDto.experience
+        employeeDto.experience,
+        employeeDto.jdate
       );
       res.status(201).json("created data");
     } catch (e) {
@@ -143,6 +144,7 @@ class EmployeeController {
         department: employeeDto.department,
         status: employeeDto.status,
         experience: employeeDto.experience,
+        jdate: employeeDto.jdate,
       });
       const outputEmployeeDto = plainToInstance(
         OutputEmployeeDto,
