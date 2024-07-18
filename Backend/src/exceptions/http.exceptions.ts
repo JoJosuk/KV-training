@@ -14,11 +14,11 @@ class HttpException extends Error {
     if (errorObject) {
       let errors: String[] = errorObject.map((error) => {
         if (error.constraints) {
-          return JSON.stringify(error.constraints);
+          return JSON.stringify(Object.values(error.constraints));
         }
       });
-      errors =errors.filter((error)=>error!=="null")  
-      
+      errors = errors.filter((error) => error !== "null");
+
       this.errorObjectList = errors;
     }
   }

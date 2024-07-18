@@ -7,6 +7,7 @@ import { addEmployee } from "../store/employeeReducer";
 import { useAddEmployeeMutation } from "../Pages/EmployeeList/api";
 import { useEditEmployeeMutation } from "../Pages/EmployeeList/api";
 import { ToastContext } from "../ToastContext";
+import handleRequestErrors from "../../utils/HandleRequestErrors";
 
 function getRandomInt(max) {
   return Math.floor(Math.random() * max);
@@ -56,15 +57,8 @@ const Form = ({ Fields, values = "", dispatch = () => {} }) => {
       id: employeeFormData.eid,
       payload: tempPayload,
     });
-    if (response.error) {
-      try {
-        showToast(response.error.data.respbody.message);
-      } catch (e) {
-        console.log("error ", e);
-        showToast("unknown error");
-      }
-      return;
-    }
+    if (handleRequestErrors(showToast, response)) return;
+
     navigate(`/employee/${employeeFormData.eid}`);
     console.log("response is", response);
     dispatch(employeeFormData.eid, tempPayload);

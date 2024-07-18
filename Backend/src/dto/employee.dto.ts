@@ -56,7 +56,7 @@ export class CreateEmployeeDto {
 
 export class UpdateEmployeeDto {
   @IsString()
-  @IsOptional()
+  @IsNotEmpty()
   name: string;
 
   @IsEmail()
@@ -64,15 +64,15 @@ export class UpdateEmployeeDto {
   email: string;
 
   @IsEnum(Status)
-  @IsOptional()
+  @IsNotEmpty()
   status?: Status;
 
   @IsNumber()
-  @IsOptional()
+  @IsNotEmpty()
   experience?: number;
 
   @IsDateString()
-  @IsOptional()
+  @IsNotEmpty()
   jdate: Date;
 
   @ValidateNested({ each: true })

@@ -20,6 +20,7 @@ const Toast = () => {
         top: 20,
         padding: "1rem",
         borderRadius: "5px",
+        zIndex: "100",
         ...toastStyles[toast.type],
       }}
     >

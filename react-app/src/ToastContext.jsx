@@ -5,9 +5,9 @@ const ToastContext = createContext({
 });
 
 const ToastProvider = ({ children }) => {
-  const [toast, setToast] = useState({ message: "", type: "info" });
+  const [toast, setToast] = useState({ message: "", type: "error" });
 
-  const showToast = (message, type = "info") => {
+  const showToast = (message, type = "error") => {
     console.log("trying toast mssg", message, toast);
     setToast({ message, type });
   };

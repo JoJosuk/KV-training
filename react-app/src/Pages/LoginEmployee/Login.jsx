@@ -7,6 +7,7 @@ import "./styles.scss";
 import { useNavigate } from "react-router-dom";
 import { useLoginMutation } from "./api";
 import { ToastContext } from "../../ToastContext";
+import handleRequestErrors from "../../../utils/HandleRequestErrors";
 
 const Login = () => {
   const { showToast } = useContext(ToastContext);
@@ -38,10 +39,8 @@ const Login = () => {
       const response = await login({ email: username, password: password });
       console.log(response);
 
-      if (response.error) {
-        showToast(response.error.data.respbody.message);
-        return;
-      }
+      if (handleRequestErrors(showToast, response)) return;
+
       console.log(response);
       console.log(response.data.token);
       localStorage.setItem("token", response.data.token);

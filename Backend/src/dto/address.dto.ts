@@ -11,11 +11,11 @@ export class CreateAddressDto {
 }
 export class UpdateAddressDto {
   @IsString()
+  @IsNotEmpty()
   line1: string;
 
   @IsString()
   pincode: string;
 
-  createdAt:Date;
-
+  createdAt: Date;
 }
