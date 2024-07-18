@@ -7,7 +7,7 @@ import DeleteModal from "../../../components/DeleteModal";
 import { actionTypes } from "../../../store/reducer";
 import { useDispatch, useSelector } from "react-redux";
 import { changeStatus, deleteEmployee } from "../../../store/employeeReducer";
-import { useDeleteEmployeeMutation, useGetEmployeeListQuery } from "./api";
+import { useDeleteEmployeeMutation, useGetEmployeeListQuery } from "../api";
 import { useGetDepartmentListQuery } from "./department.api";
 const dateformat = (str) => {
   const newStr = str.split("T");

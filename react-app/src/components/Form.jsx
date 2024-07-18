@@ -4,8 +4,8 @@ import { useState, useEffect, useRef, useContext } from "react";
 import { actionTypes } from "../store/reducer";
 import { useNavigate } from "react-router-dom";
 import { addEmployee } from "../store/employeeReducer";
-import { useAddEmployeeMutation } from "../Pages/Employee/EmployeeList/api";
-import { useEditEmployeeMutation } from "../Pages/Employee/EmployeeList/api";
+import { useAddEmployeeMutation } from "../Pages/Employee/api";
+import { useEditEmployeeMutation } from "../Pages/Employee/api";
 import { ToastContext } from "../ToastContext";
 import handleRequestErrors from "../../utils/HandleRequestErrors";
 

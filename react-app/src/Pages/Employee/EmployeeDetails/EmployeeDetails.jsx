@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { ToastContext } from "../../../ToastContext";
 import { useContext } from "react";
 import "./EmployeeDetails.scss";
-import { useGetEmployeeDetailsQuery } from "../EmployeeList/api";
+import { useGetEmployeeDetailsQuery } from "../api";
 import { Fields } from "./Fields";
 import { dateformat } from "./dateformat";
 import { getNestedPpty } from "./getNestedPpty";
