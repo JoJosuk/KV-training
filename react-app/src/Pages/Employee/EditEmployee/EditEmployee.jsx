@@ -1,5 +1,5 @@
 import { useParams, useOutletContext, useNavigate } from "react-router-dom";
-import Form from "../../components/Form";
+import Form from "../../../components/Form";
 import { useEffect } from "react";
 import { useEditEmployeeMutation } from "../EmployeeList/api";
 import { useGetEmployeeDetailsQuery } from "../EmployeeList/api";

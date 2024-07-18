@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import EmployeeIcon from "../../assets/icon.svg";
+import EmployeeIcon from "../../../assets/icon.svg";
 
 const CreateEmployeeSideBar = () => {
   const navigate = useNavigate();

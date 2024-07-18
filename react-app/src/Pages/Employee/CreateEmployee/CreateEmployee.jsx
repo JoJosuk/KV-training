@@ -1,12 +1,7 @@
-import CreateEmployeeHeader from "./CreateEmployeeHeader";
-import LoginInput from "../../components/LoginInput";
-import CreateEmployeeSideBar from "./CreateEmployeeSideBar";
-import SelectComponent from "../../components/SelectComponent";
-import CreateEmployeeInput from "./CreateEmployeeInput";
 import "./CreateEmployee.scss";
 import { useEffect, useRef, useState } from "react";
 import { useNavigate, useOutletContext } from "react-router-dom";
-import Form from "../../components/Form";
+import Form from "../../../components/Form";
 import { useDispatch } from "react-redux";
 import { useGetDepartmentListQuery } from "../EmployeeList/department.api";
 

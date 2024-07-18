@@ -1,65 +1,19 @@
 import { useOutletContext, useParams } from "react-router-dom";
-import tempEmployeeList from "../../../utils/dummyData";
 import { useEffect, useState } from "react";
-import { ToastContext } from "../../ToastContext";
+import { ToastContext } from "../../../ToastContext";
 import { useContext } from "react";
-function isISOString(str) {
-  const isoRegex =
-    /^(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2}):(\d{2})(\.\d{1,3})?Z?$/;
-
-  return isoRegex.test(str);
-}
-const dateformat = (str) => {
-  if (isISOString(str)) {
-    const newStr = str.split("T");
-    const values = newStr[0].split("-");
-    return `${values[2]}- ${values[1]}-${values[0]}`;
-  } else {
-    return str;
-  }
-};
-
-const Fields = [
-  { label: "Employee name", key: "name", classname: "" },
-  { label: "Joining Date", key: "jdate", classname: "" },
-  { label: "Experience", key: "experience", classname: "" },
-  { label: "Role", key: "role", classname: "" },
-  { label: "Status", key: "status", classname: "" },
-  { label: "Department", key: "department.name", classname: "" },
-  {
-    label: "Address",
-    key: "address.line1,address.pincode",
-    classname: "address",
-  }, // assuming address is an object
-  { label: "Employee ID", key: "id", classname: "id" },
-];
-const getNestedPpty = (obj, str) => {
-  if (str.includes(",")) {
-    let arr = str.split(",");
-    arr = arr.map((a) => {
-      let amap = a.split(".");
-      return amap.reduce((acc, key) => acc && acc[key], obj);
-    });
-    return arr.reduce((acc, cv) => {
-      if (acc === "") {
-        return cv;
-      } else {
-        return acc + ", " + cv;
-      }
-    });
-  }
-  const arr = str.split(".");
-  return arr.reduce((acc, key) => acc && acc[key], obj);
-};
 import "./EmployeeDetails.scss";
 import { useGetEmployeeDetailsQuery } from "../EmployeeList/api";
+import { Fields } from "./Fields";
+import { dateformat } from "./dateformat";
+import { getNestedPpty } from "./getNestedPpty";
 const EmployeeDetails = () => {
   const { id } = useParams();
-  const { state } = useOutletContext();
   const { showToast } = useContext(ToastContext);
 
   const { data = {}, isError, isSuccess } = useGetEmployeeDetailsQuery(id);
   const [employeeDetail, setEmployeeDetail] = useState([]);
+
   useEffect(() => {
     console.log(data);
     setEmployeeDetail(data);
@@ -73,17 +27,6 @@ const EmployeeDetails = () => {
       }
     }
   }, [isError]);
-  // useEffect(() => {
-  //   const details = state.employee.filter(
-  //     (employee) => employee.id === parseInt(id)
-  //   );
-  //   if (details.length === 0) {
-  //     console.log("error");
-  //     throw new Error();
-  //   }
-  //   console.log("details", details[0]);
-  //   setEmployeeDetail(details[0]);
-  // }, []);
 
   return (
     <main>

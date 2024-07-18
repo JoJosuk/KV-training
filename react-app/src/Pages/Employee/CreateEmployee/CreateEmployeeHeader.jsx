@@ -1,4 +1,4 @@
-import Kvlogo from "../../assets/kv-logo.png";
+import Kvlogo from "../../../assets/kv-logo.png";
 const CreateEmployeeHeader = () => {
   return (
     <header>

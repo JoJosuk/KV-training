@@ -1,4 +1,4 @@
-import departmentWithTag from "../../api/departmentApi";
+import departmentWithTag from "../../../api/departmentApi";
 export const departmentApi = departmentWithTag.injectEndpoints({
   endpoints: (builder) => ({
     getDepartmentList: builder.query({

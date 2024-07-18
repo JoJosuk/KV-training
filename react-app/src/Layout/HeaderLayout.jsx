@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { Outlet, useNavigate } from "react-router-dom";
-import CreateEmployeeHeader from "../Pages/CreateEmployee/CreateEmployeeHeader";
-import CreateEmployeeSideBar from "../Pages/CreateEmployee/CreateEmployeeSideBar";
+import CreateEmployeeHeader from "../Pages/Employee/CreateEmployee/CreateEmployeeHeader";
+import CreateEmployeeSideBar from "../Pages/Employee/CreateEmployee/CreateEmployeeSideBar";
 const HeaderLayout = ({ state, dispatch }) => {
   const navigate = useNavigate();
   useEffect(() => {
